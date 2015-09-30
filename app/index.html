@@ -62,7 +62,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <body unresolved class="fullbleed layout vertical">
   <span id="browser-sync-binding"></span>
   <template is="dom-bind" id="app">
-
+    <item-store id="shop" data={{shoppingItems}}></item-store>
     <paper-drawer-panel id="paperDrawerPanel">
       <!-- Drawer Scroll Header Panel -->
       <paper-scroll-header-panel drawer fixed>
@@ -99,7 +99,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
           <!-- Application name -->
           <div class="middle middle-container center horizontal layout">
-            <div class="app-name"><img src="images/logo.png" onclick="app.addItem();"></img></div>
+            <div class="app-name"><img src="images/logo.png" onclick="shop.addItem();"></img></div>
           </div>
           <!-- Application sub title -->
           <div class="bottom bottom-container center horizontal layout">
@@ -116,7 +116,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               <paper-material elevation="1" class="center horizontal layout">
                 <img src="images/happy.gif" style="width: 50%; height: 50%"></img>
                 <div class="center vertical layout">
-                  <div>Congratulation! You have everything you need!</div><br>
+                  <template is="dom-if" if="{{!shoppingItems.length}}">
+                    <div>Congratulation! You have everything you need!</div>
+                  </template>
+                  <template is="dom-if" if="{{shoppingItems.length}}">
+                    <div>You have <span>{{shoppingItems.length}}</span> item to buy!</div>
+                  </template>
+                  <br>
                   <paper-button raised onclick="app.route = 'pending';">Shopping list</paper-button>
                 </div>
               </paper-material>
@@ -129,27 +135,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               </paper-material>
             </section>
 
-            <section data-route="users">
-              <paper-material elevation="1">
-                <h2 class="page-title">Users</h2>
-                <p>This is the users section</p>
-                <a href="/users/Rob">Rob</a>
-              </paper-material>
-            </section>
-
-            <section data-route="user-info">
-              <paper-material elevation="1">
-                <h2 class="page-title">
-                User:<span>{{params.name}}</span>
-                </h2>
-                <div>This is <span>{{params.name}}</span>'s section</div>
-              </paper-material>
-            </section>
-
             <section data-route="pending">
               <paper-material elevation="1" class="vertical layout" style="height: calc(100vh - 232px)">
                 <h3>Check the items you have bought already</h3>
-                <iron-list id="tobuy" items="[[data]]" as="item" class="flex">
+                <iron-list id="tobuy" items="[[shoppingItems]]" as="item" class="flex">
                   <template>
                     <div style="padding: 5px;">
                       <paper-checkbox on-iron-change="removeItem">[[item.name]]</paper-checkbox>
@@ -164,7 +153,25 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       </paper-scroll-header-panel>
     </paper-drawer-panel>
 
-    <paper-fab icon="add" style="position: absolute; right: 20px; bottom: 20px;"></paper-fab>
+    <paper-dialog id="writeguide" style="background-color: white">
+      <div class="fancy">
+        <div style="font-size: 24px; font-weight: bold; padding-bottom: 16px">Create a new tag</div>
+        <img src="images/writing.png">
+        <p>
+          Write the name of the shopping item to add. Then press
+          the "Write tag" button.
+        </p>
+        <paper-input label="Shopping item"
+          autocapitalize maxlength="20">
+        </paper-input>
+        <div class="vertical layout end">
+          <paper-button raised style="background-color: #009688;">Write tag</paper-button>
+        </div>
+      </div>
+    </paper-dialog>
+
+    <paper-fab icon="add" style="position: absolute; right: 20px; bottom: 20px;"
+      onclick="document.querySelector('#writeguide').toggle()"></paper-fab>
     <paper-toast id="caching-complete"
                  duration="6000"
                  text="Caching complete! This app will work offline.">

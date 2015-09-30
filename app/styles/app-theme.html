@@ -43,14 +43,26 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     /* paper-menu */
     --paper-menu-background-color: #fff;
     --menu-link-color:             #111111;
-
-    /* paper-input */
-   --paper-input-container-color:       rgba(255, 255, 255, 0.64);
-   --paper-input-container-focus-color: rgba(255, 255, 255, 1);
-   --paper-input-container-input-color: #fff;
   }
 
   /* General styles */
+
+  paper-dialog {
+    @apply(--layout-vertical);
+    @apply(--center-justified);
+    max-width: 400px;
+  }
+
+  .card-content {
+    padding: 16px;
+    position:relative;
+  }
+
+  .card-actions {
+    border-top: 1px solid #e8e8e8;
+    padding: 5px 16px;
+    position:relative;
+  }
 
   #drawerToolbar {
     color: var(white);

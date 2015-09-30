@@ -43,27 +43,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   // Learn more about auto-binding templates at http://goo.gl/Dx1u2g
   var app = document.querySelector('#app');
 
-  app.randomData = ["Washing powder", "Dishwasher tabs", "Toilet paper", "Milk"];
-  
-  app.addItem = function() {
-    var name = app.randomData[Math.floor(Math.random() * app.randomData.length)];
-    app.data.push({ name: name });
-    document.querySelector('#tobuy').fire('resize');
-  };
-
   app.removeItem = function(event) {
-    let index = event.model.__data__.index;
-    
-    let elem = event.path[0];
-    if (!elem.hasAttribute("checked"))
-      return;
-    
-    setTimeout(() => {
-      elem.removeAttribute("checked");
-      app.data.splice(index, 1);
-      event.model.dataHost.fire('resize');
-    }, 300);
-  };
+    var el = document.querySelector('#shop');
+    el.removeItem(event);
+  }
 
   app.displayInstalledToast = function() {
     // Check to make sure caching is actually enabled—it won't be in the dev environment.
@@ -71,17 +54,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       document.querySelector('#caching-complete').show();
     }
   };
-  
-  // FIXME: Ugly workaround:
-  app.data = [];
-  for (let i = 0; i < 50; i++)
-    app.data.push({});
 
   // Listen for template bound event to know when bindings
   // have resolved and content has been stamped to the page
   app.addEventListener('dom-change', function() {
     console.log('Our app is ready to rock!');
-    app.data = [];
   });
 
   // See https://github.com/Polymer/polymer/issues/1381
