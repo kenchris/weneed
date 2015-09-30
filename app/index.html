@@ -99,7 +99,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
           <!-- Application name -->
           <div class="middle middle-container center horizontal layout">
-            <div class="app-name"><img src="images/logo.png"></img></div>
+            <div class="app-name"><img src="images/logo.png" onclick="app.addItem();"></img></div>
           </div>
           <!-- Application sub title -->
           <div class="bottom bottom-container center horizontal layout">
@@ -149,10 +149,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <section data-route="pending">
               <paper-material elevation="1" class="vertical layout" style="height: calc(100vh - 232px)">
                 <h3>Check the items you have bought already</h3>
-                <iron-list items="[[data]]" as="item" class="flex">
+                <iron-list id="tobuy" items="[[data]]" as="item" class="flex">
                   <template>
                     <div style="padding: 5px;">
-                      <paper-checkbox onchange="app.removeItem(this.id)" id="[[index]]">[[item.name]]</paper-checkbox>
+                      <paper-checkbox on-iron-change="removeItem">[[item.name]]</paper-checkbox>
                     </div>
                   </template>
                 </iron-list>
@@ -164,7 +164,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       </paper-scroll-header-panel>
     </paper-drawer-panel>
 
-    <paper-fab icon="add" style="position: absolute; right: 20px; bottom: 20px;" onclick="app.addItem();"></paper-fab>
+    <paper-fab icon="add" style="position: absolute; right: 20px; bottom: 20px;"></paper-fab>
     <paper-toast id="caching-complete"
                  duration="6000"
                  text="Caching complete! This app will work offline.">
