@@ -62,8 +62,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <body unresolved class="fullbleed layout vertical">
   <span id="browser-sync-binding"></span>
   <template is="dom-bind" id="app">
-    <weneed-nfc id="adapter">
-      <item-store id="shop" data={{shoppingItems}}></item-store>
+    <weneed-nfc id="adapter" faking="{{isFaking}}">
+      <item-store id="shop" data="{{shoppingItems}}"></item-store>
     </weneed-nfc>
     <paper-drawer-panel id="paperDrawerPanel">
       <!-- Drawer Scroll Header Panel -->
@@ -85,12 +85,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <iron-icon icon="maps:local-grocery-store"></iron-icon>
             <span>Shopping list</span>
           </a>
+          <template is="dom-if" if="{{isFaking}}">
+            <a>
+              <iron-icon icon="maps:local-grocery-store"></iron-icon>
+              <span>Add random item</span>
+            </a>
+          </template>
         </paper-menu>
       </paper-scroll-header-panel>
 
       <!-- Main Area -->
-      <paper-scroll-header-panel main condenses keep-condensed-header>
-
+      <paper-scroll-header-panel main fixed keep-condensed-header>
         <!-- Main Toolbar -->
         <paper-toolbar id="mainToolbar" class="tall">
           <paper-icon-button id="paperToggle" icon="menu" paper-drawer-toggle></paper-icon-button>
@@ -107,6 +112,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <div class="bottom bottom-container center horizontal layout">
             <div class="bottom-title paper-font-subhead">Tap so you don't forget to buy</div>
           </div>
+          <paper-fab icon="add" style="position: absolute; right: 20px; top: 140px"
+            onclick="document.querySelector('#writeguide').toggle()"></paper-fab>
 
         </paper-toolbar>
 
@@ -172,8 +179,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       </div>
     </paper-dialog>
 
-    <paper-fab icon="add" style="position: absolute; right: 20px; bottom: 20px;"
-      onclick="document.querySelector('#writeguide').toggle()"></paper-fab>
     <paper-toast id="caching-complete"
                  duration="6000"
                  text="Caching complete! This app will work offline.">

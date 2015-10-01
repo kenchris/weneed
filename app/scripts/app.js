@@ -45,7 +45,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   app.onItemComplete = function(event) {
     var el = document.querySelector('#shop');
-    el.onItemComplete(event);
+    if (el)
+      el.onItemComplete(event);
   }
 
   app.displayInstalledToast = function() {
