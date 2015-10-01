@@ -10,7 +10,7 @@
 
         properties: {
           faking: {
-    			  type: Boolean,
+            type: Boolean,
             value: false,
             notify: true
           }
@@ -18,7 +18,9 @@
 
         created: function() {
           this.randomData = ["Washing powder", "Dishwasher tabs", "Toilet paper", "Milk"];
+        },
 
+        attached: function() {
           if (!navigator.nfc) {
             this.faking = true;
             return;
