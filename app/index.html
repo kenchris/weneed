@@ -70,9 +70,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <paper-scroll-header-panel drawer fixed>
 
         <!-- Drawer Toolbar -->
-        <paper-toolbar id="drawerToolbar">
-          <span class="paper-font-title">Menu</span>
-        </paper-toolbar>
+        <div id="drawerToolbar">
+          <div class="title">WeNeed!</div>
+        </div>
 
         <!-- Drawer Content -->
         <paper-menu class="list" attr-for-selected="data-route" selected="[[route]]">
@@ -86,10 +86,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <span>Shopping list</span>
           </a>
           <template is="dom-if" if="{{isFaking}}">
+            <hr>
             <a onclick="adapter.onItemReceived();">
-              <iron-icon icon="maps:local-grocery-store"></iron-icon>
+              <iron-icon icon="icons:add-circle"></iron-icon>
               <span>Add random item</span>
             </a>
+            <div style="position: absolute; bottom: 16px; right: 16px;font-size: 14px; opacity: .54;">Faking mode</div>
           </template>
         </paper-menu>
       </paper-scroll-header-panel>
@@ -123,7 +125,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
             <section data-route="home">
               <paper-material elevation="1" class="center horizontal layout">
-                <img src="images/happy.gif" style="width: 50%; height: 50%"></img>
+                <template is="dom-if" if="{{!shoppingItems.length}}">
+                  <img src="images/happy.gif" style="width: 50%; height: 50%"></img>
+                </template>
+                <template is="dom-if" if="{{shoppingItems.length}}">
+                  <img src="images/gonebuying.gif" style="width: 50%; height: 50%"></img>
+                </template>
                 <div class="center vertical layout">
                   <template is="dom-if" if="{{!shoppingItems.length}}">
                     <div>Congratulation! You have everything you need!</div>
