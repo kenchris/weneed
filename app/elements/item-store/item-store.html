@@ -28,16 +28,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         },
 
         created: function() {
-          this.randomData = ["Washing powder", "Dishwasher tabs", "Toilet paper", "Milk"];
         },
 
-        addItem: function() {
-          var name = this.randomData[Math.floor(Math.random() * this.randomData.length)];
+        addItem: function(name) {
           this.push('data', { name: name });
           document.querySelector('#tobuy').fire('resize');
         },
 
-        removeItem: function(event) {
+        onItemComplete: function(event) {
           let index = event.model.__data__.index;
 
           let elem = event.path[0];

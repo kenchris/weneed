@@ -62,7 +62,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <body unresolved class="fullbleed layout vertical">
   <span id="browser-sync-binding"></span>
   <template is="dom-bind" id="app">
-    <item-store id="shop" data={{shoppingItems}}></item-store>
+    <weneed-nfc id="adapter">
+      <item-store id="shop" data={{shoppingItems}}></item-store>
+    </weneed-nfc>
     <paper-drawer-panel id="paperDrawerPanel">
       <!-- Drawer Scroll Header Panel -->
       <paper-scroll-header-panel drawer fixed>
@@ -99,7 +101,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
           <!-- Application name -->
           <div class="middle middle-container center horizontal layout">
-            <div class="app-name"><img src="images/logo.png" onclick="shop.addItem();"></img></div>
+            <div class="app-name"><img src="images/logo.png" onclick="adapter.onItemReceived();"></img></div>
           </div>
           <!-- Application sub title -->
           <div class="bottom bottom-container center horizontal layout">
@@ -141,7 +143,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 <iron-list id="tobuy" items="[[shoppingItems]]" as="item" class="flex">
                   <template>
                     <div style="padding: 5px;">
-                      <paper-checkbox on-iron-change="removeItem">[[item.name]]</paper-checkbox>
+                      <paper-checkbox on-iron-change="onItemComplete">[[item.name]]</paper-checkbox>
                     </div>
                   </template>
                 </iron-list>
