@@ -23,11 +23,26 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             value: function() {
               return [];
             },
+            notify: true,
+            observer: '_dataChanged'
+          },
+          image: {
+            type: String,
+            value: 'images/happy.gif',
             notify: true
           }
         },
+        
+        observers: [
+          '_dataChanged(data.splices)'
+        ],
 
         created: function() {
+        },
+
+        _dataChanged: function(changeRecord) {
+          this.image = (this.data.length) ? 'images/gonebuying.gif' : 'images/happy.gif';
+          console.log(this.image); 
         },
 
         addItem: function(name) {

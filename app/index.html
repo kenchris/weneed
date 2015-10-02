@@ -63,7 +63,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <span id="browser-sync-binding"></span>
   <template is="dom-bind" id="app">
     <weneed-nfc id="adapter" faking="{{isFaking}}">
-      <item-store id="shop" data="{{shoppingItems}}"></item-store>
+      <item-store id="shop" data="{{shoppingItems}}" image="{{imageSrc}}"></item-store>
     </weneed-nfc>
     <paper-drawer-panel id="paperDrawerPanel">
       <!-- Drawer Scroll Header Panel -->
@@ -122,18 +122,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <!-- Main Content -->
         <div class="content">
           <iron-pages attr-for-selected="data-route" selected="{{route}}">
-
             <section data-route="home">
-              <paper-material elevation="1" class="center horizontal layout">
-                <template is="dom-if" if="{{!shoppingItems.length}}">
-                  <img src="images/happy.gif" style="width: 50%; height: 50%"></img>
-                </template>
-                <template is="dom-if" if="{{shoppingItems.length}}">
-                  <img src="images/gonebuying.gif" style="width: 50%; height: 50%"></img>
-                </template>
+              <paper-material elevation="1" class="horizontal layout">
+                <div style="width: 100%" class="box">
+                  <!--iron-image class="content" sizing="contain"
+                    preload fade src="{{imageSrc}}"></iron-image-->
+                  <img class="content" style="width: 100%; height: 100%" src="{{imageSrc}}"></img>
+                </div>
                 <div class="center vertical layout">
                   <template is="dom-if" if="{{!shoppingItems.length}}">
-                    <div>Congratulation! You have everything you need!</div>
+                    <div><b>Congratulation!</b> You have everything you need!</div>
                   </template>
                   <template is="dom-if" if="{{shoppingItems.length}}">
                     <div>You have <span>{{shoppingItems.length}}</span> item to buy!</div>
