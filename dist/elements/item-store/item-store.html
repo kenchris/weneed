@@ -1,0 +1,76 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<dom-module id="item-store">
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'item-store',
+
+        properties: {
+          data: {
+            type: Array,
+            value: function() {
+              return [];
+            },
+            notify: true,
+            observer: '_dataChanged'
+          },
+          image: {
+            type: String,
+            value: '',
+            notify: true
+          }
+        },
+        
+        observers: [
+          '_dataChanged(data.splices)'
+        ],
+
+        created: function() {
+        },
+
+        _dataChanged: function(dataRecord) {
+          this.image = (this.data.length) ? 'images/gonebuying.gif' : 'images/happy.gif';
+          if (!dataRecord || dataRecord instanceof Array) {
+            return;
+          }
+          if (!this.data.length) {
+            this.fire('complete');
+          }
+        },
+
+        addItem: function(name) {
+          this.push('data', { name: name });
+          document.querySelector('#tobuy').fire('resize');
+        },
+
+        onItemComplete: function(event) {
+          var index = event.model.__data__.index;
+
+          var elem = event.path[0];
+          if (!elem.hasAttribute('checked')) {
+            return;
+          }
+
+          setTimeout(function() {
+            elem.removeAttribute('checked');
+            this.splice('data', index, 1);
+            event.model.dataHost.fire('resize');
+          }.bind(this), 300);
+        }
+      });
+    })();
+  </script>
+
+</dom-module>
