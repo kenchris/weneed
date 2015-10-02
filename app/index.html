@@ -63,7 +63,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <span id="browser-sync-binding"></span>
   <template is="dom-bind" id="app">
     <weneed-nfc id="adapter" faking="{{isFaking}}">
-      <item-store id="shop" data="{{shoppingItems}}" image="{{imageSrc}}"></item-store>
+      <item-store id="shop" data="{{shoppingItems}}" image="{{imageSrc}}" on-complete="onAllComplete"></item-store>
     </weneed-nfc>
     <paper-drawer-panel id="paperDrawerPanel">
       <!-- Drawer Scroll Header Panel -->
