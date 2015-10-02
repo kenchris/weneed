@@ -49,6 +49,14 @@ var styleTask = function (stylesPath, srcs) {
     .pipe($.size({title: stylesPath}));
 };
 
+// npm install gh-pages --save-dev
+
+var ghpages = require('gh-pages');
+
+gulp.task('deploy', ['default'], function(cb) {
+    ghpages.publish(path.join(process.cwd(), 'dist'), cb);
+});
+
 // Compile and automatically prefix stylesheets
 gulp.task('styles', function () {
   return styleTask('styles', ['**/*.css']);
@@ -267,7 +275,8 @@ gulp.task('default', ['clean'], function (cb) {
     ['copy', 'styles'],
     'elements',
     ['jshint', 'images', 'fonts', 'html'],
-    'vulcanize','rename-index', 'cache-config',
+    //'vulcanize',
+    'rename-index', 'cache-config',
     cb);
 });
 

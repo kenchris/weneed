@@ -42,8 +42,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         _dataChanged: function(dataRecord) {
           this.image = (this.data.length) ? 'images/gonebuying.gif' : 'images/happy.gif';
-          if (!dataRecord || dataRecord instanceof Array)
+          if (!dataRecord || dataRecord instanceof Array) {
             return;
+          }
           if (!this.data.length) {
             this.fire('complete');
           }

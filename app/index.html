@@ -70,13 +70,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <paper-scroll-header-panel drawer fixed>
 
         <!-- Drawer Toolbar -->
-        <div id="drawerToolbar">
+        <div id="drawerToolbar" style="background: url(images/menubg.png)">
           <div class="title">WeNeed!</div>
         </div>
 
         <!-- Drawer Content -->
         <paper-menu class="list" attr-for-selected="data-route" selected="[[route]]">
-          <a data-route="home" href="/" on-click="onDataRouteClick">
+          <a data-route="home" href="/home" on-click="onDataRouteClick">
             <iron-icon icon="home"></iron-icon>
             <span>Home</span>
           </a>
@@ -109,9 +109,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <!-- Application name -->
           <div class="middle middle-container center horizontal layout">
             <div class="app-name">
-              <img src="images/wenneed@1.png"
-                srcset="images/weneed@1.png 1x, images/weneed@2.png 2x"
-                onclick="app.route = 'home';"></img>
+              <a data-route="home" href="/home" on-click="onDataRouteClick">
+              <img src="images/weneed@1.png"
+                srcset="images/weneed@1.png 1x, images/weneed@2.png 2x"></img>
+              </a>
             </div>
           </div>
           <!-- Application sub title -->
