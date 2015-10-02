@@ -124,20 +124,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <iron-pages attr-for-selected="data-route" selected="{{route}}">
             <section data-route="home">
               <paper-material elevation="1" class="horizontal layout">
-                <div style="width: 100%" class="box">
-                  <!--iron-image class="content" sizing="contain"
-                    preload fade src="{{imageSrc}}"></iron-image-->
-                  <img class="content" style="width: 100%; height: 100%" src="{{imageSrc}}"></img>
-                </div>
-                <div class="center vertical layout">
-                  <template is="dom-if" if="{{!shoppingItems.length}}">
-                    <div><b>Congratulation!</b> You have everything you need!</div>
-                  </template>
-                  <template is="dom-if" if="{{shoppingItems.length}}">
-                    <div>You have <span>{{shoppingItems.length}}</span> item to buy!</div>
-                  </template>
-                  <br>
-                  <paper-button raised onclick="app.route = 'pending';">Shopping list</paper-button>
+                <iron-image sizing="contain" style="min-width: 175px; min-height: 175px; max-height: 250px;"
+                  preload fade src="{{imageSrc}}"></iron-image>
+                <div class="end-justified vertical layout flex">
+                  <div class="flex center center-justified horizontal layout">
+                    <template is="dom-if" if="{{!shoppingItems.length}}">
+                      <div><b>Congratulation!</b> You have everything you need!</div>
+                    </template>
+                    <template is="dom-if" if="{{shoppingItems.length}}">
+                      <div>You have <b>{{shoppingItems.length}}</b> item to buy!</div>
+                    </template>
+                  </div>
+                  <div class="horizontal layout end-justified">
+                    <paper-button raised onclick="app.route = 'pending';">Shopping list</paper-button>
+                  </div>
                 </div>
               </paper-material>
               <paper-material elevation="1">

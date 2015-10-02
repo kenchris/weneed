@@ -57,24 +57,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     max-width: 400px;
   }
 
-.box{
-	position: relative;
-	width: 50%;		/* desired width */
-}
-.box:before{
-	content: "";
-	display: block;
-	padding-top: 100%; 	/* initial ratio of 1:1*/
-}
-
-.box .content{
-	position:  absolute;
-	top: 0;
-	left: 0;
-	bottom: 0;
-	right: 0;
-}
-
   .card-content {
     padding: 16px;
     position:relative;
@@ -123,6 +105,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     height: 100%;
     padding: 16px 0 16px 0;
     width: calc(98.66% - 16px);
+    max-width: 600px;
     margin: 16px auto;
     background: white;
   }
