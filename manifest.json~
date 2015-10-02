@@ -22,7 +22,7 @@
         "sizes": "384x384",
         "type": "image/png"
       }],
-  "start_url": "weneed/?homescreen1",
+  "start_url": "/?homescreen=1",
   "background_color": "#FFC107",
   "display": "standalone",
   "theme_color": "#2E3AA1"
