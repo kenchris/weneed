@@ -13,7 +13,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   function loadElements() {
     var bundle = document.createElement('link');
     bundle.rel = 'import';
-    bundle.onerror = () => {
+    bundle.onerror = function() {
       bundle.href = 'elements/elements.html';
     };
     bundle.href = 'elements/elements.vulcanized.html';
@@ -28,9 +28,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     document.head.appendChild(polyfill);
   }
   
-  var webComponentsSupported = ('registerElement' in document
-    && 'import' in document.createElement('link')
-    && 'content' in document.createElement('template'));
+  var webComponentsSupported = ('registerElement' in document &&
+    'import' in document.createElement('link') &&
+    'content' in document.createElement('template'));
 
   if (webComponentsSupported) {
     loadElements();
@@ -45,9 +45,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   app.onItemComplete = function(event) {
     var el = document.querySelector('#shop');
-    if (el)
+    if (el) {
       el.onItemComplete(event);
-  }
+    }
+  };
 
   app.displayInstalledToast = function() {
     // Check to make sure caching is actually enabled—it won't be in the dev environment.

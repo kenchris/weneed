@@ -40,7 +40,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         created: function() {
         },
 
-        _dataChanged: function(changeRecord) {
+        _dataChanged: function() {
           this.image = (this.data.length) ? 'images/gonebuying.gif' : 'images/happy.gif';
           console.log(this.image); 
         },
@@ -51,17 +51,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         },
 
         onItemComplete: function(event) {
-          let index = event.model.__data__.index;
+          var index = event.model.__data__.index;
 
-          let elem = event.path[0];
-          if (!elem.hasAttribute("checked"))
+          var elem = event.path[0];
+          if (!elem.hasAttribute('checked')) {
             return;
+          }
 
-          setTimeout(() => {
-            elem.removeAttribute("checked");
+          setTimeout(function() {
+            elem.removeAttribute('checked');
             this.splice('data', index, 1);
             event.model.dataHost.fire('resize');
-          }, 300);
+          }, 300).bind(this);
         }
       });
     })();
