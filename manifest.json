@@ -22,7 +22,7 @@
         "sizes": "384x384",
         "type": "image/png"
       }],
-  "start_url": "https://kenchris.github.io/weneed",
+  "start_url": "https://kenchris.github.io/weneed/",
   "background_color": "#FFC107",
   "display": "standalone",
   "theme_color": "#2E3AA1"
