@@ -108,7 +108,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
           <!-- Application name -->
           <div class="middle middle-container center horizontal layout">
-            <div class="app-name"><img src="images/logo.png" onclick="app.route = 'home';"></img></div>
+            <div class="app-name">
+              <img src="images/wenneed@1.png"
+                srcset="images/weneed@1.png 1x, images/weneed@2.png 2x"
+                onclick="app.route = 'home';"></img>
+            </div>
           </div>
           <!-- Application sub title -->
           <div class="bottom bottom-container center horizontal layout">
@@ -124,7 +128,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <iron-pages attr-for-selected="data-route" selected="{{route}}">
             <section data-route="home">
               <paper-material elevation="1" class="horizontal layout">
-                <iron-image sizing="contain" style="min-width: 175px; min-height: 175px; max-height: 250px;"
+                <iron-image sizing="contain" style="min-width: 160px; min-height: 160px; max-height: 250px;"
                   preload fade src="{{imageSrc}}"></iron-image>
                 <div class="end-justified vertical layout flex">
                   <div class="flex center center-justified horizontal layout">
