@@ -25,9 +25,8 @@
             this.faking = true;
             return;
           }
-
-          navigator.nfc.requestAdapter(function(adapter) {
-            adapter.watch({}, function(message) {
+          navigator.nfc.requestAdapter().then((adapter) => {
+            adapter.watch({}, (message) => {
               if (message[0].kind !== 'json') {
                 console.warn('Malformed NFC tag');
                 return;
