@@ -1,24 +1,32 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../../bower_components/paper-styles/paper-styles.html">
+<link rel="import" href="../../bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
+<link rel="import" href="../../bower_components/paper-dialog-behavior/paper-dialog-behavior.html">
 
 <dom-module id="write-dialog">
+  <link rel="import" type="css" href="../../bower_components/paper-dialog-behavior/paper-dialog-common.css">
   <template>
-      <paper-dialog id="writeguide" style="background-color: white">
-      <div class="fancy">
-        <div style="font-size: 24px; font-weight: bold; padding-bottom: 16px">Create a new tag</div>
-        <img src="images/writing@1.png" srcset="images/writing@1.png 1x, images/writing@2.png 2x"></img>
-        <p>
-          Write the name of the shopping item to add. Then press
-          the "Write tag" button.
-        </p>
-        <paper-input id="input" label="Shopping item""
-          autocapitalize maxlength="20">
-        </paper-input>
-        <div class="vertical layout end">
-          <paper-button raised style="background-color: #2E3AA1; color:white" on-tap="write">Write tag</paper-button>
+    <style>
+    :host {
+      --paper-dialog-background-color: white;
+    }
+    </style>
+    <div class="fancy">
+        <h2 style="font-size: 24px; font-weight: bold; padding-bottom: 16px">Create a new tag</h2>
+        <paper-dialog-scrollable>
+          <img src="images/writing@1.png" srcset="images/writing@1.png 1x, images/writing@2.png 2x" style="width:100%"></img>
+          <p>
+            Write the name of the shopping item to add. Then press
+            the "Write tag" button.
+          </p>
+          <paper-input id="input" label="Shopping item" value="{{value}}"
+            autocapitalize maxlength="20">
+          </paper-input>
+        </paper-dialog-scrollable>
+        <div class="buttons vertical layout end">
+          <paper-button raised style="background-color: #2E3AA1; color:white" on-tap="write" disabled="{{!value}}">Write tag</paper-button>
         </div>
       </div>
-    </paper-dialog>
   </template>
   
   <script>
@@ -27,18 +35,38 @@
 
       Polymer({
         is: 'write-dialog',
+        behaviors: [
+          Polymer.PaperDialogBehavior
+        ],
+        
+        properties: {
+          value: {
+            type: String,
+            value: '',
+            notify: true
+          }
+        },
         
         write: function() {
-          console.log('writing');
+          console.log('About to write');
           if (!navigator.nfc) {
             return;
           }
+          
           navigator.nfc.requestAdapter().then((adapter) => {
             adapter.pushMessage([{ 
               kind: 'json', 
               type: 'application/json', 
-              data: JSON.stringify({ name: this.$.input.value })
-            }], {target: 'tag', timeout: 10});
+              data: JSON.stringify({ name: this.value })
+            }], { target: 'tag', timeout: 5 })
+            .then(() => {
+              console.log('Wrote ' + this.value);
+              this.toggle();
+            })
+            .catch(() => {
+              console.warn('Failed to write');
+              this.toggle();
+            });
           });
         }
       });
