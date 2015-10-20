@@ -76,7 +76,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     console.log(ev.detail.value);
     app.$.console.text = ev.detail.value;
     app.$.console.show();
-  };
+  }
   
   addEventListener('warn', log);
   addEventListener('info', log);

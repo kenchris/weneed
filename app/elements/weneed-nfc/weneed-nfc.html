@@ -28,7 +28,7 @@
           navigator.nfc.requestAdapter().then((adapter) => {
             adapter.watch({}, (message) => {
               if (message[0].kind !== 'json') {
-                console.warn('Malformed NFC tag');
+                this.fire('warn', { value: 'Malformed NFC tag' });
                 return;
               }
               console.log(message);
