@@ -10,23 +10,37 @@
     :host {
       --paper-dialog-background-color: white;
     }
+    
+    h2 {
+      font-size: 24px;
+      font-weight: bold;
+      padding-bottom: 16px
+    }
+    
+    paper-button {
+      background-color: #2E3AA1;
+      color:white
+    }
+    
+    img {
+      width: 100%;
+    }
     </style>
-    <div class="fancy">
-        <h2 style="font-size: 24px; font-weight: bold; padding-bottom: 16px">Create a new tag</h2>
-        <paper-dialog-scrollable>
-          <img src="images/writing@1.png" srcset="images/writing@1.png 1x, images/writing@2.png 2x" style="width:100%"></img>
-          <p>
-            Write the name of the shopping item to add. Then press
-            the "Write tag" button.
-          </p>
-          <paper-input id="input" label="Shopping item" value="{{value}}"
-            autocapitalize maxlength="20">
-          </paper-input>
-        </paper-dialog-scrollable>
-        <div class="buttons vertical layout end">
-          <paper-button raised style="background-color: #2E3AA1; color:white" on-tap="write" disabled="{{!value}}">Write tag</paper-button>
-        </div>
-      </div>
+    
+    <h2>Create a new tag</h2>
+    <paper-dialog-scrollable>
+      <img src="images/writing@1.png" srcset="images/writing@1.png 1x, images/writing@2.png 2x"></img>
+      <p>
+        Write the name of the shopping item to add. Then press
+        the "Write tag" button.
+      </p>
+      <paper-input id="input" label="Shopping item" value="{{value}}"
+        autocapitalize maxlength="20">
+      </paper-input>
+    </paper-dialog-scrollable>
+    <div class="buttons">
+      <paper-button raised on-tap="write" disabled="{{!value}}">Write tag</paper-button>
+    </div>
   </template>
   
   <script>
