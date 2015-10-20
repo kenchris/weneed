@@ -21,11 +21,10 @@
         },
 
         attached: function() {
-          if (!navigator.nfc) {
-            this.faking = true;
-            return;
-          }
-
+         // if (!navigator.nfc) {
+          //  this.faking = true;
+          //  return;
+         // }
           navigator.nfc.requestAdapter().then((adapter) => {
             adapter.watch({}, (message) => {
               if (message[0].kind !== 'json') {
