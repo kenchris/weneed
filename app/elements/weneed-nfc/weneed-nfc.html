@@ -31,7 +31,9 @@
                 console.warn('Malformed NFC tag');
                 return;
               }
-              var name = message[0].data.name;
+              console.log(message);
+              var tmpData = JSON.parse(message[0].data);
+              var name = tmpData.name;
               this.onItemReceived(name); 
             });
           });
