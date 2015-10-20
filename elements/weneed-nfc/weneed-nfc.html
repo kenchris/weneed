@@ -26,8 +26,8 @@
             return;
           }
 
-          //navigator.nfc.requestAdapter(function(adapter) {
-            navigator.nfc.NFCAdapter.watch({}, function(message) {
+          navigator.nfc.requestAdapter().then(function(adapter) {
+            adapter.watch({}, function(message) {
               if (message[0].kind !== 'json') {
                 console.warn('Malformed NFC tag');
                 return;
@@ -35,7 +35,7 @@
               var name = message[0].data.name;
               this.onItemReceived(name); 
             });
-          //});
+          });
         },
 
         onItemReceived: function(name) {
