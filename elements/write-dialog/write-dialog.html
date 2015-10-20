@@ -29,6 +29,7 @@
         is: 'write-dialog',
         
         write: function() {
+          console.log('writing');
           if (!navigator.nfc) {
             return;
           }
