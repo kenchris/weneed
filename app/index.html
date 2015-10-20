@@ -172,23 +172,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       </paper-scroll-header-panel>
     </paper-drawer-panel>
 
-    <paper-dialog id="writeguide" style="background-color: white">
-      <div class="fancy">
-        <div style="font-size: 24px; font-weight: bold; padding-bottom: 16px">Create a new tag</div>
-        <img src="images/writing@1.png" srcset="images/writing@1.png 1x, images/writing@2.png 2x">
-        <p>
-          Write the name of the shopping item to add. Then press
-          the "Write tag" button.
-        </p>
-        <paper-input label="Shopping item"
-          autocapitalize maxlength="20">
-        </paper-input>
-        <div class="vertical layout end">
-          <paper-button raised style="background-color: #2E3AA1; color:white">Write tag</paper-button>
-        </div>
-      </div>
-    </paper-dialog>
+    <write-dialog></write-dialog>
 
+<!--
     <paper-toast id="caching-complete"
                  duration="6000"
                  text="Caching complete! This app will work offline.">
@@ -202,6 +188,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                          cache-config-file="cache-config.json">
       </platinum-sw-cache>
     </platinum-sw-register>
+-->
 
   </template>
 

@@ -1,0 +1,34 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+
+<dom-module id="write-dialog">
+  <template>
+      <paper-dialog id="writeguide" style="background-color: white">
+      <div class="fancy">
+        <div style="font-size: 24px; font-weight: bold; padding-bottom: 16px">Create a new tag</div>
+        <img src="images/writing@1.png" srcset="images/writing@1.png 1x, images/writing@2.png 2x"></img>
+        <p>
+          Write the name of the shopping item to add. Then press
+          the "Write tag" button.
+        </p>
+        <paper-input label="Shopping item"
+          autocapitalize maxlength="20">
+        </paper-input>
+        <div class="vertical layout end">
+          <paper-button raised style="background-color: #2E3AA1; color:white">Write tag</paper-button>
+        </div>
+      </div>
+    </paper-dialog>
+  </template>
+  
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'write-dialog'
+      });
+    })();
+  </script>
+  
+</dom-module>
