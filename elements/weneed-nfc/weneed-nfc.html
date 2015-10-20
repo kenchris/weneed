@@ -32,7 +32,8 @@
                 return;
               }
               console.log(message);
-              var name = message[0].data.name;
+              var tmpData = JSON.parse(message[0].data);
+              var name = tmpData.name;
               this.onItemReceived(name); 
             });
           });
