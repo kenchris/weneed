@@ -11,7 +11,7 @@
           Write the name of the shopping item to add. Then press
           the "Write tag" button.
         </p>
-        <paper-input label="Shopping item"
+        <paper-input id="input" label="Shopping item""
           autocapitalize maxlength="20">
         </paper-input>
         <div class="vertical layout end">
@@ -37,7 +37,7 @@
             adapter.pushMessage([{ 
               kind: 'json', 
               type: 'application/json', 
-              data: JSON.stringify({ name: 'Wookie' })
+              data: JSON.stringify({ name: this.$.input.value })
             }], {target: 'tag', timeout: 10});
           });
         }
