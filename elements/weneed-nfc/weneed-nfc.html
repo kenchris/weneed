@@ -34,8 +34,8 @@
               }
               var name = message[0].data.name;
               this.onItemReceived(name); 
-            });
-          });
+            }).bind(this);
+          }).bind(this);
         },
 
         onItemReceived: function(name) {
