@@ -15,7 +15,7 @@
           autocapitalize maxlength="20">
         </paper-input>
         <div class="vertical layout end">
-          <paper-button raised style="background-color: #2E3AA1; color:white">Write tag</paper-button>
+          <paper-button raised style="background-color: #2E3AA1; color:white" on-click="write">Write tag</paper-button>
         </div>
       </div>
     </paper-dialog>
@@ -26,7 +26,20 @@
       'use strict';
 
       Polymer({
-        is: 'write-dialog'
+        is: 'write-dialog',
+        
+        write: function() {
+          if (!navigator.nfc) {
+            return;
+          }
+          navigator.nfc.requestAdapter().then((adapter) => {
+            adapter.pushMessage([{ 
+              kind: 'json', 
+              type: 'application/json', 
+              data: JSON.stringify({ name: 'Wookie' })
+            }], {target: 'tag', timeout: 10});
+          });
+        }
       });
     })();
   </script>
