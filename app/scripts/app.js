@@ -71,6 +71,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   window.addEventListener('WebComponentsReady', function() {
     // imports are loaded and elements have been registered
   });
+    
+  function log(ev) {
+    console.log(ev.detail.value);
+    app.$.console.text = ev.detail.value;
+    app.$.console.show();
+  };
+  
+  addEventListener('warn', log);
+  addEventListener('info', log);
 
   // Main area's paper-scroll-header-panel custom condensing transformation of
   // the appName in the middle-container and the bottom title in the bottom-container.

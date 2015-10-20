@@ -64,6 +64,8 @@
         write: function() {
           console.log('About to write');
           if (!navigator.nfc) {
+            this.fire('warn', { value: 'Failed to write; no WebNFC support'});
+            this.toggle();
             return;
           }
           
@@ -74,11 +76,11 @@
               data: JSON.stringify({ name: this.value })
             }], { target: 'tag', timeout: 5 })
             .then(() => {
-              console.log('Wrote ' + this.value);
+              this.fire('info', { value: 'Wrote ' + this.value });
               this.toggle();
             })
             .catch(() => {
-              console.warn('Failed to write');
+              this.fire('warn', { value: 'Failed to write; unknown error' });
               this.toggle();
             });
           });
