@@ -69,8 +69,15 @@
             return;
           }
           
-          navigator.nfc.requestAdapter().then((adapter) => {
-            adapter.pushMessage([{ 
+          (() => {
+            if (this.adapter) {
+              return Promise.resolve(this.adapter);
+            } else {
+              return navigator.nfc.requestAdapter();
+            }
+          })().then((adapter) => {
+            this.adapter = adapter;
+            this.adapter.pushMessage([{ 
               kind: 'json', 
               type: 'application/json', 
               data: JSON.stringify({ name: this.value })
