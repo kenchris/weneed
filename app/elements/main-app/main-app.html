@@ -1,0 +1,399 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<dom-module id="main-app">
+  <style>
+    :host {
+      width: 100%;
+      height: 100%;
+    }
+    
+  paper-dialog {
+    @apply(--layout-vertical);
+    @apply(--center-justified);
+    max-width: 400px;
+  }
+
+  .card-content {
+    padding: 16px;
+    position:relative;
+  }
+
+  .card-actions {
+    border-top: 1px solid #e8e8e8;
+    padding: 5px 16px;
+    position:relative;
+  }
+
+  #drawerToolbar {
+    color: var(white);
+    background: url(../images/menubg.png);
+    background-color: var(--default-primary-color);
+
+    height: 150px;
+    position: relative;
+  }
+
+  #drawerToolbar .title {
+    font-size: 16px;
+    line-height: 1;
+    color: #FFF;
+    position: absolute;
+    bottom: 8px;
+    left: 16px;
+    height: 16px;
+    font-weight: 500;
+  }
+  
+  .bottom-title {
+    color: var(--light-primary-color);
+  }
+
+  paper-button {
+    background-color: var(--primary-background-color);
+  }
+
+  paper-scroll-header-panel {
+    height: 100%;
+  }
+
+  paper-material {
+    border-radius: 2px;
+    height: 100%;
+    padding: 16px 0 16px 0;
+    width: calc(98.66% - 16px);
+    max-width: 600px;
+    margin: 16px auto;
+    background: white;
+  }
+  
+  paper-icon-button  {
+    color: white;
+  }
+
+  paper-menu iron-icon {
+    margin-right: 33px;
+    opacity: 0.54;
+  }
+
+  .paper-menu > .iron-selected {
+    color: var(--default-primary-color);
+  }
+
+  paper-menu a {
+    text-decoration: none;
+    color: var(--menu-link-color);
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -ms-flex-direction: row;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+    font-family: 'Roboto', 'Noto', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 24px;
+    min-height: 48px;
+    padding: 0 16px;
+  }
+
+  paper-toolbar.tall .app-name {
+    font-size: 40px;
+    font-weight: 300;
+    /* Required for main area's paper-scroll-header-panel custom condensing transformation */
+    -webkit-transform-origin: left center;
+    transform-origin: left center;
+    color: white;
+  }
+
+  #mainToolbar .middle-container  {
+    height: 100%;
+    margin-left: 48px;
+  }
+
+  #mainToolbar:not(.tall) .middle {
+    font-size: 18px;
+    padding-bottom: 0;
+  }
+
+  #mainToolbar .bottom {
+    margin-left: 48px;
+    /* Required for main area's paper-scroll-header-panel custom condensing transformation */
+    -webkit-transform-origin: left center;
+    transform-origin: left center;
+  }
+  
+    /* Breakpoints */
+
+  /* Small */
+  @media (max-width: 600px) {
+
+    paper-material {
+      --menu-container-display: none;
+      width: calc(97.33% - 32px);
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+
+    paper-toolbar.tall .app-name {
+      font-size: 36px;
+      font-weight: 400;
+      color: white;
+    }
+
+    #drawer .paper-toolbar {
+      margin-left: 16px;
+    }
+
+    #overlay {
+      min-width: 360px;
+    }
+
+    .bg {
+      background: white;
+    }
+
+  }
+
+  /* Tablet+ */
+  @media (min-width: 601px) {
+
+    paper-material {
+      width: calc(98% - 46px);
+      margin-bottom: 32px;
+      padding-left: 30px;
+      padding-right: 30px;
+    }
+
+    #drawer.paper-drawer-panel > [drawer] {
+      border-right: 1px solid rgba(0, 0, 0, 0.14);
+    }
+
+    iron-pages {
+      padding: 48px 62px;
+    }
+
+  }
+  </style>
+  <template>
+    <weneed-nfc id="adapter" faking="{{isFaking}}">
+      <item-store id="shop" data="{{shoppingItems}}" image="{{imageSrc}}" on-complete="gotoHome"></item-store>
+    </weneed-nfc>
+    <paper-drawer-panel id="paperDrawerPanel">
+      <!-- Drawer Scroll Header Panel -->
+      <paper-scroll-header-panel drawer fixed>
+
+        <!-- Drawer Toolbar -->
+        <div id="drawerToolbar" style="background: url(../../images/menubg.png)">
+          <div class="title">WeNeed!</div>
+        </div>
+
+        <!-- Drawer Content -->
+        <paper-menu class="list" attr-for-selected="data-route" selected="[[route]]">
+          <a data-route="home" on-click="gotoHome">
+            <iron-icon icon="home"></iron-icon>
+            <span>Home</span>
+          </a>
+
+          <a data-route="pending" on-click="gotoShoppingList">
+            <iron-icon icon="maps:local-grocery-store"></iron-icon>
+            <span>Shopping list</span>
+          </a>
+          <template is="dom-if" if="{{isFaking}}">
+            <hr>
+            <a onclick="adapter.onItemReceived();">
+              <iron-icon icon="icons:add-circle"></iron-icon>
+              <span>Add random item</span>
+            </a>
+            <div style="position: absolute; bottom: 16px; right: 16px;font-size: 14px; opacity: .54;">Faking mode</div>
+          </template>
+        </paper-menu>
+      </paper-scroll-header-panel>
+
+      <!-- Main Area -->
+      <paper-scroll-header-panel main id="headerPanelMain" fixed keep-condensed-header>
+        <!-- Main Toolbar -->
+        <paper-toolbar id="mainToolbar" class="tall">
+          <paper-icon-button id="paperToggle" icon="menu" paper-drawer-toggle></paper-icon-button>
+          <span class="flex"></span>
+
+          <!-- Toolbar icons -->
+          <paper-icon-button icon="search"></paper-icon-button>
+
+          <!-- Application name -->
+          <div class="middle middle-container center horizontal layout">
+            <div class="app-name">
+              <img src="images/weneed@1.png"
+                srcset="images/weneed@1.png 1x, images/weneed@2.png 2x"
+                on-click="gotoHome"></img>
+            </div>
+          </div>
+          <!-- Application sub title -->
+          <div class="bottom bottom-container center horizontal layout">
+            <div class="bottom-title paper-font-subhead">Tap so you don't forget to buy</div>
+          </div>
+          <paper-fab icon="add" style="color: white; position: absolute; right: 20px; top: 140px"
+            onclick="document.querySelector('#writeguide').toggle()"></paper-fab>
+
+        </paper-toolbar>
+
+        <!-- Main Content -->
+        <div class="content">
+          <iron-pages attr-for-selected="data-route" selected="{{route}}">
+            <section data-route="home">
+              <paper-material elevation="1" class="horizontal layout">
+                <iron-image sizing="contain" style="min-width: 160px; min-height: 160px; max-height: 250px;"
+                  preload fade src="{{imageSrc}}"></iron-image>
+                <div class="end-justified vertical layout flex">
+                  <div class="flex center center-justified horizontal layout">
+                    <template is="dom-if" if="{{!shoppingItems.length}}">
+                      <div><b>Congratulation!</b> You have everything you need!</div>
+                    </template>
+                    <template is="dom-if" if="{{shoppingItems.length}}">
+                      <div>You have <b>{{shoppingItems.length}}</b> item to buy!</div>
+                    </template>
+                  </div>
+                  <div class="horizontal layout end-justified">
+                    <paper-button raised data-route="pending"
+                      on-click="gotoShoppingList">Shopping list</paper-button>
+                  </div>
+                </div>
+              </paper-material>
+              <paper-material elevation="1">
+                <p class="paper-font-body2">Now to get started</p>
+                Create a new tag to put near some of your appliances when they run
+                out of something you often need, and add the product to your
+                shopping list by a single tap! Press the action button to get
+                started.
+              </paper-material>
+            </section>
+
+            <section data-route="pending">
+              <paper-material elevation="1" class="vertical layout" style="height: calc(100vh - 232px)">
+                <h3>Check the items you have bought already</h3>
+                <iron-list id="tobuy" items="[[shoppingItems]]" as="item" class="flex">
+                  <template>
+                    <div style="padding: 5px;">
+                      <paper-checkbox on-iron-change="onItemComplete">[[item.name]]</paper-checkbox>
+                    </div>
+                  </template>
+                </iron-list>
+              </paper-material>
+            </section>
+
+          </iron-pages>
+        </div>
+      </paper-scroll-header-panel>
+    </paper-drawer-panel>
+
+    <write-dialog id="writeguide"></write-dialog>
+
+    <paper-toast id="console"
+                 duration="6000">
+    </paper-toast>
+
+<!--
+    <paper-toast id="caching-complete"
+                 duration="6000"
+                 text="Caching complete! This app will work offline.">
+    </paper-toast>
+
+    <platinum-sw-register auto-register
+                          clients-claim
+                          skip-waiting
+                          on-service-worker-installed="displayInstalledToast">
+      <platinum-sw-cache default-cache-strategy="fastest"
+                         cache-config-file="cache-config.json">
+      </platinum-sw-cache>
+    </platinum-sw-register>
+-->
+
+  </template>
+  <script src="../../bower_components/page/page.js"></script>
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'main-app',
+        
+        properties: {
+          route: {
+            type: String,
+            value: 'home',
+            notify: true
+          }
+        },
+ 
+        _log: function(ev) {
+          console.log(ev.detail.value);
+          this.$.console.text = ev.detail.value;
+          this.$.console.show();
+        },
+
+        ready: function() {
+          // We use Page.js for routing. This is a Micro
+          // client-side router inspired by the Express router
+          // More info: https://visionmedia.github.io/page.js/
+
+          let scrollToTop = function (ctx, next) {
+            this.$.headerPanelMain.scrollToTop(true);
+            next();
+          }.bind(this);
+
+          page('/', scrollToTop, () => { this.route = 'home'; });
+          page('/home', scrollToTop, () => { this.route = 'home'; });
+          page('/pending', scrollToTop, () => { this.route = 'pending'; });
+      
+          // add #! before urls
+          page({
+            hashbang: true
+          });
+          
+          addEventListener('warn', this.log);
+          addEventListener('info', this.log);
+        },
+        
+        gotoHome: function() {
+          this.route = 'home';
+          this.onDataRouteClick();
+        },
+        
+        gotoShoppingList: function() {
+          this.route = 'pending';
+          this.onDataRouteClick();
+        },
+        
+        // Close drawer after menu item is selected if drawerPanel is narrow
+        onDataRouteClick: function() {
+          var drawerPanel = document.querySelector('#paperDrawerPanel');
+          if (drawerPanel.narrow) {
+            drawerPanel.closeDrawer();
+          }
+          document.location.hash = '#!/' + this.route;
+        },
+        
+        onItemComplete: function(event) {
+          var el = document.querySelector('#shop');
+          if (el) {
+            el.onItemComplete(event);
+          }
+        }
+      });
+    })();
+  </script>
+
+</dom-module>

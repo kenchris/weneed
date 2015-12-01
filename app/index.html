@@ -45,156 +45,103 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <!-- build:css styles/main.css -->
   <link rel="stylesheet" href="styles/main.css">
   <!-- endbuild-->
-
-  <!-- build:js bower_components/webcomponentsjs/webcomponents-lite.min.js -->
-  <script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-  <!-- endbuild -->
-
-  <!-- will be replaced with elements/elements.vulcanized.html -->
-  <link rel="import" href="elements/elements.html">
-  <!-- endreplace-->
-
+  
+  <!-- 1. Async HTML Imports do not block rending. Benefit of keeping it declarative
+     (instead of dynamically loading it later in JS) is that the parser can go
+     to town pre-fetching resources, etc. -->
+  <link rel="import" id="bundle" href="/elements/elements.html" async>
+  
   <!-- For shared styles, shared-styles.html import in elements.html -->
   <style is="custom-style" include="shared-styles"></style>
-
+  <style>
+    body {
+      background: #fafafa;
+      font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      color: #333;
+      margin: 0;
+    }
+    #skeleton .drawer {
+      position: fixed;
+      top: 0;
+      right: auto;
+      bottom: 0;
+      left: 0;
+      background-color: #ffffff;
+      width: 256px;
+    }
+    #skeleton .main > .app-header {
+      display: block;
+      position: fixed;
+      top: 0;
+      right: 0;
+      z-index: 1;
+      background-color: #FFC107;
+      color: #444;
+      transform: translate3d(0px, 0px, 0px);
+      left: 256px;
+    }
+    #skeleton .app-toolbar {
+      height: 64px;
+      padding: 0 16px;
+      position: relative;
+      pointer-events: none;
+      display: -ms-flexbox;
+      display: -webkit-flex;
+      display: flex;
+      -ms-flex-direction: row;
+      -webkit-flex-direction: row;
+      flex-direction: row;
+      -ms-flex-align: center;
+      -webkit-align-items: center;
+      align-items: center;
+      -ms-flex-pack: center;
+      -webkit-justify-content: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+    #skeleton .site-title {
+      font-size: 60px;
+      line-height: 1;
+      color: #FFF;
+      position: absolute;
+      left: 60px;
+      font-weight: 500;
+    }
+    @media (max-width: 640px) {
+      #skeleton .drawer {
+        display: none;
+      }
+      #skeleton .main > .app-header {
+        left: 0;
+      }
+      #skeleton .app-toolbar {
+        height: 56px;
+      }
+    }
+  </style>
 </head>
 
 <body unresolved class="fullbleed layout vertical">
   <span id="browser-sync-binding"></span>
-  <template is="dom-bind" id="app">
-    <weneed-nfc id="adapter" faking="{{isFaking}}">
-      <item-store id="shop" data="{{shoppingItems}}" image="{{imageSrc}}" on-complete="onAllComplete"></item-store>
-    </weneed-nfc>
-    <paper-drawer-panel id="paperDrawerPanel">
-      <!-- Drawer Scroll Header Panel -->
-      <paper-scroll-header-panel drawer fixed>
-
-        <!-- Drawer Toolbar -->
-        <div id="drawerToolbar" style="background: url(images/menubg.png)">
-          <div class="title">WeNeed!</div>
+  
+  <div id="skeleton">
+    <!-- drawer panel -->
+    <div class="drawer"></div>
+    <!-- main panel -->
+    <div class="main">
+      <div class="app-header">
+        <!-- top toolbar -->
+        <div class="app-toolbar"></div>
+        <!-- bottom toolbar -->
+        <div class="app-toolbar">
+          <div class="site-title">WeNEED!</div>
         </div>
-
-        <!-- Drawer Content -->
-        <paper-menu class="list" attr-for-selected="data-route" selected="[[route]]">
-          <a data-route="home" href="/home" on-click="onDataRouteClick">
-            <iron-icon icon="home"></iron-icon>
-            <span>Home</span>
-          </a>
-
-          <a data-route="pending" href="/pending" on-click="onDataRouteClick">
-            <iron-icon icon="maps:local-grocery-store"></iron-icon>
-            <span>Shopping list</span>
-          </a>
-          <template is="dom-if" if="{{isFaking}}">
-            <hr>
-            <a onclick="adapter.onItemReceived();">
-              <iron-icon icon="icons:add-circle"></iron-icon>
-              <span>Add random item</span>
-            </a>
-            <div style="position: absolute; bottom: 16px; right: 16px;font-size: 14px; opacity: .54;">Faking mode</div>
-          </template>
-        </paper-menu>
-      </paper-scroll-header-panel>
-
-      <!-- Main Area -->
-      <paper-scroll-header-panel main fixed keep-condensed-header>
-        <!-- Main Toolbar -->
-        <paper-toolbar id="mainToolbar" class="tall">
-          <paper-icon-button id="paperToggle" icon="menu" paper-drawer-toggle></paper-icon-button>
-          <span class="flex"></span>
-
-          <!-- Toolbar icons -->
-          <paper-icon-button icon="search"></paper-icon-button>
-
-          <!-- Application name -->
-          <div class="middle middle-container center horizontal layout">
-            <div class="app-name">
-              <a data-route="home" href="/home" on-click="onDataRouteClick">
-              <img src="images/weneed@1.png"
-                srcset="images/weneed@1.png 1x, images/weneed@2.png 2x"></img>
-              </a>
-            </div>
-          </div>
-          <!-- Application sub title -->
-          <div class="bottom bottom-container center horizontal layout">
-            <div class="bottom-title paper-font-subhead">Tap so you don't forget to buy</div>
-          </div>
-          <paper-fab icon="add" style="color: white; position: absolute; right: 20px; top: 140px"
-            onclick="document.querySelector('#writeguide').toggle()"></paper-fab>
-
-        </paper-toolbar>
-
-        <!-- Main Content -->
-        <div class="content">
-          <iron-pages attr-for-selected="data-route" selected="{{route}}">
-            <section data-route="home">
-              <paper-material elevation="1" class="horizontal layout">
-                <iron-image sizing="contain" style="min-width: 160px; min-height: 160px; max-height: 250px;"
-                  preload fade src="{{imageSrc}}"></iron-image>
-                <div class="end-justified vertical layout flex">
-                  <div class="flex center center-justified horizontal layout">
-                    <template is="dom-if" if="{{!shoppingItems.length}}">
-                      <div><b>Congratulation!</b> You have everything you need!</div>
-                    </template>
-                    <template is="dom-if" if="{{shoppingItems.length}}">
-                      <div>You have <b>{{shoppingItems.length}}</b> item to buy!</div>
-                    </template>
-                  </div>
-                  <div class="horizontal layout end-justified">
-                    <paper-button raised onclick="app.route = 'pending';">Shopping list</paper-button>
-                  </div>
-                </div>
-              </paper-material>
-              <paper-material elevation="1">
-                <p class="paper-font-body2">Now to get started</p>
-                Create a new tag to put near some of your appliances when they run
-                out of something you often need, and add the product to your
-                shopping list by a single tap! Press the action button to get
-                started.
-              </paper-material>
-            </section>
-
-            <section data-route="pending">
-              <paper-material elevation="1" class="vertical layout" style="height: calc(100vh - 232px)">
-                <h3>Check the items you have bought already</h3>
-                <iron-list id="tobuy" items="[[shoppingItems]]" as="item" class="flex">
-                  <template>
-                    <div style="padding: 5px;">
-                      <paper-checkbox on-iron-change="onItemComplete">[[item.name]]</paper-checkbox>
-                    </div>
-                  </template>
-                </iron-list>
-              </paper-material>
-            </section>
-
-          </iron-pages>
-        </div>
-      </paper-scroll-header-panel>
-    </paper-drawer-panel>
-
-    <write-dialog id="writeguide"></write-dialog>
-
-    <paper-toast id="console"
-                 duration="6000">
-    </paper-toast>
-
-<!--
-    <paper-toast id="caching-complete"
-                 duration="6000"
-                 text="Caching complete! This app will work offline.">
-    </paper-toast>
-
-    <platinum-sw-register auto-register
-                          clients-claim
-                          skip-waiting
-                          on-service-worker-installed="displayInstalledToast">
-      <platinum-sw-cache default-cache-strategy="fastest"
-                         cache-config-file="cache-config.json">
-      </platinum-sw-cache>
-    </platinum-sw-register>
--->
-
-  </template>
+        <div class="app-toolbar"></div>
+      </div>
+    </div>
+  </div>
+  
+  <main-app></main-app>
 
   <!-- build:js scripts/app.js -->
   <script src="scripts/app.js"></script>

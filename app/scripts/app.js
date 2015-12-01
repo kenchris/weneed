@@ -10,76 +10,60 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 (function(document) {
   'use strict';
   
-  function loadElements() {
-    var bundle = document.createElement('link');
-    bundle.rel = 'import';
-    bundle.onerror = function() {
-      bundle.href = 'elements/elements.html';
-    };
-    bundle.href = 'elements/elements.vulcanized.html';
-
-    document.head.appendChild(bundle);
-  }
+   function finishLazyLoading() {
+    // (Optional) Use native Shadow DOM if it's available in the browser.
+    // WARNING! This will mess up the page.js router which uses event delegation
+    // and expects to receive events from anchor tags. These events get re-targeted
+    // by the Shadow DOM to point to <blog-app>
+    // window.Polymer = window.Polymer || {dom: 'shadow'};
   
-  function loadWebComponentPolyfill(cb) {
-    var polyfill = document.createElement('script');
-    polyfill.onload = cb || null;
-    polyfill.src = 'webcomponents-lite.min.js';
-    document.head.appendChild(polyfill);
+    var onImportLoaded = function() {
+      var skeleton = document.getElementById('skeleton');
+      skeleton.remove();
+  
+      console.log('Elements are upgraded!');
+    };
+  
+    var link = document.querySelector('#bundle');
+  
+    if (link.import && link.import.readyState === 'complete') {
+      onImportLoaded();
+    } else {
+      link.addEventListener('load', onImportLoaded);
+    }
   }
   
   var webComponentsSupported = ('registerElement' in document &&
     'import' in document.createElement('link') &&
     'content' in document.createElement('template'));
 
-  if (webComponentsSupported) {
-    loadElements();
+  if (!webComponentsSupported) {
+    var script = document.createElement('script');
+    script.async = true;
+    script.src = '/bower_components/webcomponentsjs/webcomponents-lite.min.js';
+    script.onload = finishLazyLoading;
+    document.head.appendChild(script);
   } else {
-    loadWebComponentPolyfill(loadElements);
+    finishLazyLoading();
   }
 
-  // Grab a reference to our auto-binding template
-  // and give it some initial binding values
-  // Learn more about auto-binding templates at http://goo.gl/Dx1u2g
-  var app = document.querySelector('#app');
-
-  app.onAllComplete = function() {
-    app.route = 'home';
-  };
-
-  app.onItemComplete = function(event) {
-    var el = document.querySelector('#shop');
-    if (el) {
-      el.onItemComplete(event);
-    }
-  };
-
-  app.displayInstalledToast = function() {
+  //app.displayInstalledToast = function() {
     // Check to make sure caching is actually enabled—it won't be in the dev environment.
-    if (!document.querySelector('platinum-sw-cache').disabled) {
-      document.querySelector('#caching-complete').show();
-    }
-  };
+  //  if (!document.querySelector('platinum-sw-cache').disabled) {
+  //    document.querySelector('#caching-complete').show();
+  //  }
+  //};
 
   // Listen for template bound event to know when bindings
   // have resolved and content has been stamped to the page
-  app.addEventListener('dom-change', function() {
-    console.log('Our app is ready to rock!');
-  });
+  //app.addEventListener('dom-change', function() {
+  //  console.log('Our app is ready to rock!');
+  ///});
 
   // See https://github.com/Polymer/polymer/issues/1381
   window.addEventListener('WebComponentsReady', function() {
     // imports are loaded and elements have been registered
   });
-    
-  function log(ev) {
-    console.log(ev.detail.value);
-    app.$.console.text = ev.detail.value;
-    app.$.console.show();
-  }
-  
-  addEventListener('warn', log);
-  addEventListener('info', log);
 
   // Main area's paper-scroll-header-panel custom condensing transformation of
   // the appName in the middle-container and the bottom title in the bottom-container.
@@ -105,18 +89,5 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     // Scale middleContainer appName
     Polymer.Base.transform('scale(' + scaleMiddle + ') translateZ(0)', appName);
   });
-
-  // Close drawer after menu item is selected if drawerPanel is narrow
-  app.onDataRouteClick = function() {
-    var drawerPanel = document.querySelector('#paperDrawerPanel');
-    if (drawerPanel.narrow) {
-      drawerPanel.closeDrawer();
-    }
-  };
-
-  // Scroll page to top and expand header
-  app.scrollPageToTop = function() {
-    document.getElementById('mainContainer').scrollTop = 0;
-  };
 
 })(document);
