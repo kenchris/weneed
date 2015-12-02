@@ -10,7 +10,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 (function(document) {
   'use strict';
   
-   function finishLazyLoading() {
+  function finishLazyLoading() {
     // (Optional) Use native Shadow DOM if it's available in the browser.
     // WARNING! This will mess up the page.js router which uses event delegation
     // and expects to receive events from anchor tags. These events get re-targeted

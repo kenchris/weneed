@@ -41,18 +41,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   <!-- Tile icon for Win8 (144x144) -->
   <meta name="msapplication-TileImage" content="images/touch/ms-touch-icon-144x144-precomposed.png">
-
-  <!-- build:css styles/main.css -->
-  <link rel="stylesheet" href="styles/main.css">
-  <!-- endbuild-->
   
   <!-- 1. Async HTML Imports do not block rending. Benefit of keeping it declarative
      (instead of dynamically loading it later in JS) is that the parser can go
      to town pre-fetching resources, etc. -->
   <link rel="import" id="bundle" href="/elements/elements.html" async>
   
-  <!-- For shared styles, shared-styles.html import in elements.html -->
-  <style is="custom-style" include="shared-styles"></style>
   <style>
     body {
       background: #fafafa;

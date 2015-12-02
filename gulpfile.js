@@ -45,7 +45,7 @@ var styleTask = function (stylesPath, srcs) {
     .pipe($.autoprefixer(AUTOPREFIXER_BROWSERS))
     .pipe(gulp.dest('.tmp/' + stylesPath))
     .pipe($.cssmin())
-    .pipe(gulp.dest('dist/' + stylesPath))
+    .pipe(gulp.dest('static/' + stylesPath))
     .pipe($.size({title: stylesPath}));
 };
 
@@ -54,7 +54,7 @@ var styleTask = function (stylesPath, srcs) {
 var ghpages = require('gh-pages');
 
 gulp.task('deploy', ['default'], function(cb) {
-    ghpages.publish(path.join(process.cwd(), 'dist'), cb);
+    ghpages.publish(path.join(process.cwd(), 'static'), cb);
 });
 
 // Compile and automatically prefix stylesheets
@@ -88,7 +88,7 @@ gulp.task('images', function () {
       progressive: true,
       interlaced: true
     })))
-    .pipe(gulp.dest('dist/images'))
+    .pipe(gulp.dest('static/images'))
     .pipe($.size({title: 'images'}));
 });
 
@@ -100,43 +100,43 @@ gulp.task('copy', function () {
     '!app/cache-config.json'
   ], {
     dot: true
-  }).pipe(gulp.dest('dist'));
+  }).pipe(gulp.dest('static'));
 
   var bower = gulp.src([
     'bower_components/**/*'
-  ]).pipe(gulp.dest('dist/bower_components'));
+  ]).pipe(gulp.dest('static/bower_components'));
 
   var elements = gulp.src(['app/elements/**/*.html'])
-    .pipe(gulp.dest('dist/elements'));
+    .pipe(gulp.dest('static/elements'));
 
   var swBootstrap = gulp.src(['bower_components/platinum-sw/bootstrap/*.js'])
-    .pipe(gulp.dest('dist/elements/bootstrap'));
+    .pipe(gulp.dest('static/elements/bootstrap'));
 
   var swToolbox = gulp.src(['bower_components/sw-toolbox/*.js'])
-    .pipe(gulp.dest('dist/sw-toolbox'));
+    .pipe(gulp.dest('static/sw-toolbox'));
 
-  var vulcanized = gulp.src(['app/elements/elements.html'])
-    .pipe($.rename('elements.vulcanized.html'))
-    .pipe(gulp.dest('dist/elements'));
+  //var vulcanized = gulp.src(['app/elements/elements.html'])
+  //  .pipe($.rename('elements.vulcanized.html'))
+  //  .pipe(gulp.dest('static/elements'));
 
-  return merge(app, bower, elements, vulcanized, swBootstrap, swToolbox)
+  return merge(app, bower, elements, swBootstrap, swToolbox)
     .pipe($.size({title: 'copy'}));
 });
 
-// Copy web fonts to dist
+// Copy web fonts to static
 gulp.task('fonts', function () {
   return gulp.src(['app/fonts/**'])
-    .pipe(gulp.dest('dist/fonts'))
+    .pipe(gulp.dest('static/fonts'))
     .pipe($.size({title: 'fonts'}));
 });
 
 // Scan your HTML for assets & optimize them
 gulp.task('html', function () {
-  var assets = $.useref.assets({searchPath: ['.tmp', 'app', 'dist']});
+  var assets = $.useref.assets({searchPath: ['.tmp', 'app', 'static']});
 
   return gulp.src(['app/**/*.html', '!app/{elements,test}/**/*.html'])
     // Replace path for vulcanized assets
-    .pipe($.if('*.html', $.replace('elements/elements.html', 'elements/elements.vulcanized.html')))
+    .pipe($.if('*.html', $.replace('elements/elements.html', 'elements/elements.html')))
     .pipe(assets)
     // Concatenate and minify JavaScript
     .pipe($.if('*.js', $.uglify({preserveComments: 'some'})))
@@ -152,16 +152,16 @@ gulp.task('html', function () {
       spare: true
     })))
     // Output files
-    .pipe(gulp.dest('dist'))
+    .pipe(gulp.dest('static'))
     .pipe($.size({title: 'html'}));
 });
 
 // Polybuild will take care of inlining HTML imports,
 // scripts and CSS for you.
 gulp.task('vulcanize', function () {
-  return gulp.src('dist/index.html')
+  return gulp.src('static/index.html')
     .pipe(polybuild({maximumCrush: true}))
-    .pipe(gulp.dest('dist/'));
+    .pipe(gulp.dest('static/'));
 });
 
 // If you require more granular configuration of Vulcanize
@@ -170,10 +170,10 @@ gulp.task('vulcanize', function () {
 
 // Rename Polybuild's index.build.html to index.html
 gulp.task('rename-index', function () {
-  gulp.src('dist/index.build.html')
+  gulp.src('static/index.build.html')
     .pipe($.rename('index.html'))
-    .pipe(gulp.dest('dist/'));
-  return del(['dist/index.build.html']);
+    .pipe(gulp.dest('static/'));
+  return del(['static/index.build.html']);
 });
 
 // Generate config data for the <sw-precache-cache> element.
@@ -184,7 +184,7 @@ gulp.task('rename-index', function () {
 // See https://github.com/PolymerElements/polymer-starter-kit#enable-service-worker-support
 // for more context.
 gulp.task('cache-config', function (callback) {
-  var dir = 'dist';
+  var dir = 'static';
   var config = {
     cacheId: packageJson.name || path.basename(__dirname),
     disabled: false
@@ -209,7 +209,7 @@ gulp.task('cache-config', function (callback) {
 
 // Clean output directory
 gulp.task('clean', function (cb) {
-  del(['.tmp', 'dist'], cb);
+  del(['.tmp', 'static'], cb);
 });
 
 // Watch files for changes & reload
@@ -246,7 +246,7 @@ gulp.task('serve', ['styles', 'elements', 'images'], function () {
   gulp.watch(['app/images/**/*'], reload);
 });
 
-// Build and serve the output from the dist build
+// Build and serve the output from the static build
 gulp.task('serve:dist', ['default'], function () {
   browserSync({
     port: 5001,
@@ -264,7 +264,7 @@ gulp.task('serve:dist', ['default'], function () {
     // Note: this uses an unsigned certificate which on first access
     //       will present a certificate warning in the browser.
     // https: true,
-    server: 'dist',
+    server: 'static',
     middleware: [ historyApiFallback() ]
   });
 });
