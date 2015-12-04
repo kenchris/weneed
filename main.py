@@ -14,11 +14,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-__author__ = 'Eric Bidelman <ebidel@>'
+__author__ = 'Eric Bidelman <ebidel@> and Kenneth Christiansen'
 
 import os
 import sys
 import webapp2
+import logging
 
 from google.appengine.ext.webapp import template
 
@@ -30,9 +31,27 @@ class MainHandler(http2.PushHandler):
   @http2.push('push_manifest.json')
   def get(self):
     path = os.path.join(os.path.dirname(__file__), 'static/index.html')
+    self.response.headers.add_header('Accept-CH', 'DPR')
     return self.response.write(template.render(path, {}))
 
 
+class ImageHandler(webapp2.RequestHandler):
+
+  def get(self):
+    name, ext = self.request.path.split(".")
+    device_pixel_ratio = "1"
+    if (self.request.headers.get('DPR', 1) > 1):
+      device_pixel_ratio = "2"
+
+    self.response.headers['Content-Type'] = 'image/png'
+    self.response.headers.add_header('Content-DPR', device_pixel_ratio);
+    if ext == "png" and not "touch/" in name:
+      path = os.path.join(os.path.dirname(__file__), 'static/' + name + '@' + device_pixel_ratio + '.' + ext)
+    else:
+      path = os.path.join(os.path.dirname(__file__), 'static/' + name + '.' + ext)
+    return self.response.write(file(path, 'rb').read())
+
 app = webapp2.WSGIApplication([
+    ('/images/.*', ImageHandler),
     ('/', MainHandler),
 ], debug=True)

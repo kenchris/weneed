@@ -25,6 +25,9 @@ var packageJson = require('./package.json');
 var crypto = require('crypto');
 var polybuild = require('polybuild');
 
+$.cache.clear();
+$.cache.clearAll();
+
 var AUTOPREFIXER_BROWSERS = [
   'ie >= 10',
   'ie_mob >= 10',
