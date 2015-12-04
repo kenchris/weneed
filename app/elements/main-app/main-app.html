@@ -363,8 +363,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             hashbang: true
           });
           
-          addEventListener('warn', this.log);
-          addEventListener('info', this.log);
+          addEventListener('warn', this._log.bind(this));
+          addEventListener('info', this._log.bind(this));
         },
         
         gotoHome: function() {
