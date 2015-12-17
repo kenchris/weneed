@@ -47,18 +47,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     finishLazyLoading();
   }
 
-  //app.displayInstalledToast = function() {
+  var app = document.querySelector('#app');
+
+  app.displayInstalledToast = function() {
     // Check to make sure caching is actually enabled—it won't be in the dev environment.
-  //  if (!document.querySelector('platinum-sw-cache').disabled) {
-  //    document.querySelector('#caching-complete').show();
-  //  }
-  //};
+    if (!document.querySelector('platinum-sw-cache').disabled) {
+      document.querySelector('#caching-complete').show();
+    }
+  };
 
   // Listen for template bound event to know when bindings
   // have resolved and content has been stamped to the page
-  //app.addEventListener('dom-change', function() {
-  //  console.log('Our app is ready to rock!');
-  ///});
+  app.addEventListener('dom-change', function() {
+    console.log('Our app is ready to rock!');
+  });
 
   // See https://github.com/Polymer/polymer/issues/1381
   window.addEventListener('WebComponentsReady', function() {

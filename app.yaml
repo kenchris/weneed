@@ -8,6 +8,14 @@ libraries:
 
 handlers:
 
+- url: /sw-import.js
+  static_files: static/sw-import.js
+  upload: static/sw-import.js
+
+- url: /cache-config.json
+  static_files: static/cache-config.json
+  upload: static/cache-config.json
+
 - url: /manifest.json
   static_files: static/manifest.json
   upload: static/manifest.json

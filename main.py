@@ -31,7 +31,7 @@ class MainHandler(http2.PushHandler):
   @http2.push('push_manifest.json')
   def get(self):
     path = os.path.join(os.path.dirname(__file__), 'static/index.html')
-    self.response.headers.add_header('Accept-CH', 'DPR')
+#    self.response.headers.add_header('Accept-CH', 'DPR')
     return self.response.write(template.render(path, {}))
 
 
@@ -50,6 +50,7 @@ class ImageHandler(webapp2.RequestHandler):
     else:
       path = os.path.join(os.path.dirname(__file__), 'static/' + name + '.' + ext)
     return self.response.write(file(path, 'rb').read())
+
 
 app = webapp2.WSGIApplication([
     ('/images/.*', ImageHandler),
