@@ -32,15 +32,18 @@
       <img src="/images/writing.png"></img>
       <p>
         Write the name of the shopping item to add. Then press
-        the "Write tag" button.
+        the <i>write tag</i> button.
+      </p>
+      <p>You can also write a barcode number and press
+        the <i>lookup</i> button to prefill the name.
       </p>
       <paper-input id="input" label="Shopping item" value="{{value}}"
         autocapitalize maxlength="20">
       </paper-input>
     </paper-dialog-scrollable>
     <div class="buttons">
-      <paper-button raised on-tap="lookup" disabled="{{!value}}">Lookup</paper-button>
-      <paper-button raised on-tap="write" disabled="{{!value}}">Write</paper-button>
+      <paper-button raised on-tap="lookup" disabled="{{!value}}">LOOKUP</paper-button>
+      <paper-button raised on-tap="write" disabled="{{!value}}">WRITE TAG</paper-button>
     </div>
   </template>
   
@@ -66,12 +69,19 @@
           let key = '7a10574349051f0a4843d14c9b6ae14d';
           let id = this.value;
 
+          this.$.input.invalid = false;
+
           fetch(`https://api.outpan.com/v2/products/${id}?apikey=${key}`, { })
             .then((response) => { return response.json(); })
             .then((json) => {
-              if (json.name) {
-                this.value = json.name;
+              if (!json.name) {
+                throw Error;
               }
+              this.value = json.name;
+            })
+            .catch(() => {
+              this.$.input.invalid = true;
+              this.$.input.errorMessage = 'Lookup failed, please try again.';
             });
         },
 
