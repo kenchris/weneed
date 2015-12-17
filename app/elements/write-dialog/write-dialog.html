@@ -39,7 +39,8 @@
       </paper-input>
     </paper-dialog-scrollable>
     <div class="buttons">
-      <paper-button raised on-tap="write" disabled="{{!value}}">Write tag</paper-button>
+      <paper-button raised on-tap="lookup" disabled="{{!value}}">Lookup</paper-button>
+      <paper-button raised on-tap="write" disabled="{{!value}}">Write</paper-button>
     </div>
   </template>
   
@@ -60,7 +61,20 @@
             notify: true
           }
         },
-        
+
+        lookup: function() {
+          let key = '7a10574349051f0a4843d14c9b6ae14d';
+          let id = this.value;
+
+          fetch(`https://api.outpan.com/v2/products/${id}?apikey=${key}`, { })
+            .then((response) => { return response.json(); })
+            .then((json) => {
+              if (json.name) {
+                this.value = json.name;
+              }
+            });
+        },
+
         write: function() {
           console.log('About to write');
           if (!navigator.nfc) {
