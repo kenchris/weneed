@@ -32,7 +32,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             notify: true
           }
         },
-        
+
         observers: [
           '_dataChanged(data.splices)'
         ],
@@ -41,7 +41,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         },
 
         _dataChanged: function(dataRecord) {
-          this.image = (this.data.length) ? 'images/gonebuying.gif' : 'images/happy.gif';
+          this.image = 'images/basket.jpg';
           if (!dataRecord || dataRecord instanceof Array) {
             return;
           }

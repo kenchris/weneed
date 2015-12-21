@@ -142,9 +142,5 @@
   "/elements/elements.html": {
     "weight": 1,
     "type": "document"
-  },
-  "/images/happy.gif": {
-    "weight": 1,
-    "type": "image"
   }
 }
