@@ -10,7 +10,8 @@
     "page": "visionmedia/page.js#~1.6.3",
     "iron-list": "PolymerElements/iron-list#^1.1.2",
     "webcomponentsjs": "WebComponents/webcomponentsjs#~0.7.18",
-    "paper-dialog-scrollable": "PolymerElements/paper-dialog-scrollable#~1.0.1"
+    "paper-dialog-scrollable": "PolymerElements/paper-dialog-scrollable#~1.0.1",
+    "quagga": "~0.8.2"
   },
   "devDependencies": {
     "web-component-tester": "*",
