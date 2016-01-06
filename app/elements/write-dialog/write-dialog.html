@@ -233,6 +233,9 @@
         },
 
         scan: function() {
+          // Reset input and any potential errors.
+          this.$.input.value = '';
+
           let size = this.$.interactive.getBoundingClientRect();
 
           Quagga.init(
