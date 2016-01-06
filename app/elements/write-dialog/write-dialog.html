@@ -25,12 +25,23 @@
     <style>
     :host {
       --paper-dialog-background-color: white;
+      width: 90%;
+      max-width: 480px;
+    }
+
+    :host > * {
+      padding: 0;
     }
 
     h2 {
       font-size: 24px;
       font-weight: bold;
-      padding-bottom: 16px
+      padding-bottom: 16px;
+      padding: 0px 24px 16px;
+    }
+
+    iron-pages {
+      display: inline;
     }
 
     paper-button {
@@ -49,28 +60,83 @@
       width: 100%    !important;
       height: auto   !important;
     }
+
+    .illustration {
+      background-size: cover !important;
+      height: 0px;
+      padding-top: 75%;
+      position: relative;
+    }
     </style>
-    
-    <h2>Create a new tag</h2>
-    <paper-dialog-scrollable>
-      <div id="interactive" class="viewport" style="background:url(/images/write-prepare.png) no-repeat; background-size:cover; height: 0px; padding-top: 75%; position:relative">
-        <video class="fit"></video>
-      </div>
-      <p>
-        Write the name of the shopping item to add, or write the UPC/EAN of the item to
-        look up the name. You can also directly scan the barcode of the product.
-      </p>
-      <paper-input id="input" label="Item name or barcode numbers" value="{{value}}"
-        autocapitalize maxlength="20">
-      </paper-input>
-      <br>
-    </paper-dialog-scrollable>
-    <div class="buttons">
-      <paper-button on-tap="scan" disabled="{{!supportsBarcodeScanner}}">SCAN BARCODE</paper-button>
-      <paper-button on-tap="action" disabled="{{!value}}">{{actionButtonText(isProductCode)}}</paper-button>
-    </div>
+
+    <h2>Add a new item for the shopping list</h2>
+    <iron-pages selected="{{state}}">
+      <section>
+        <paper-dialog-scrollable>
+          <div id="interactive" class="viewport illustration" style="background: url(/images/write-prepare.png) no-repeat;">
+            <video class="fit"></video>
+          </div>
+          <p>
+            Write the name of the shopping item to add, or write the UPC/EAN of the item to
+            look up the name. You can also directly scan the barcode of the product.
+          </p>
+          <paper-input id="input" label="Item name or barcode numbers" value="{{value}}"
+            autocapitalize maxlength="20">
+          </paper-input>
+          <br>
+        </paper-dialog-scrollable>
+        <div class="buttons">
+          <paper-button on-tap="scan" disabled="{{!supportsBarcodeScanner}}">SCAN BARCODE</paper-button>
+          <paper-button on-tap="action" disabled="{{!value}}">{{actionButtonText(isProductCode)}}</paper-button>
+        </div>
+      </section>
+
+      <section>
+        <paper-dialog-scrollable>
+          <div class="illustration" style="background: url(/images/write-tap.png) no-repeat;"
+            onclick="document.querySelector('write-dialog').onWriteSucceeded();">
+          </div>
+          <p>
+            Touch the NFC tag with the device, and the system will store the new information
+            on it. Afterwards, the tag can be used for adding items to the shopping list, by
+            simply tapping it.
+          </p>
+        </paper-dialog-scrollable>
+        <div class="buttons">
+          <paper-button on-tap="reset">REGISTER ANOTHER ITEM</paper-button>
+        </div>
+      </section>
+
+      <section>
+        <paper-dialog-scrollable>
+          <div class="illustration" style="background: url(/images/write-success.png) no-repeat;"
+            onclick="document.querySelector('write-dialog').onWriteFailed();">
+          </div>
+          <p>
+            Content was written successfully to the tag.
+          </p>
+        </paper-dialog-scrollable>
+        <div class="buttons">
+          <paper-button on-tap="reset">REGISTER ANOTHER ITEM</paper-button>
+          <paper-button on-tap="close">DONE</paper-button>
+        </div>
+      </section>
+
+      <section>
+        <paper-dialog-scrollable>
+          <div class="illustration" style="background: url(/images/write-failure.png) no-repeat;">
+          </div>
+          <p>
+            Error writing content, please try again.
+          </p>
+        </paper-dialog-scrollable>
+        <div class="buttons">
+          <paper-button on-tap="close">CANCEL</paper-button>
+          <paper-button on-tap="write">TRY AGAIN</paper-button>
+        </div>
+      </section>
   </template>
-  
+
   <script src="../../bower_components/quagga/dist/quagga.min.js" type="text/javascript"></script>
   <script>
     (function() {
@@ -79,7 +145,9 @@
       var dialog = null;
 
       Quagga.onProcessed(function(result) {
+        // TODO: Fix drawing barcode areas.
         return;
+
         var drawingCtx = Quagga.canvas.ctx.overlay,
             drawingCanvas = Quagga.canvas.dom.overlay;
 
@@ -117,8 +185,13 @@
         behaviors: [
           Polymer.PaperDialogBehavior
         ],
-        
+
         properties: {
+          state: {
+            type: Number,
+            value: 0,
+            notify: true
+          },
           value: {
             type: String,
             value: '',
@@ -134,6 +207,10 @@
             value: false,
             notify: true
           }
+        },
+
+        listeners: {
+          'iron-overlay-closed': 'reset'
         },
 
         ready: function() {
@@ -167,7 +244,7 @@
               inputStream: {
                 type: 'LiveStream',
                 constraints: {
-                  video: { 
+                  video: {
                     width: 640,
                     height: 480,
                     facingMode: {
@@ -222,10 +299,27 @@
           }
         },
 
+        onWriteSucceeded: function() {
+          this.state = 2;
+        },
+
+        onWriteFailed: function() {
+          this.state = 3;
+        },
+
+        reset: function() {
+          this.state = 0;
+          this.value = '';
+          this.isProductCode = false;
+          // TODO: Cancel writes.
+        },
+
         write: function() {
+          this.state = 1;
+
           if (!navigator.nfc) {
-            this.fire('warn', { value: 'Failed to write; no WebNFC support'});
-            this.toggle();
+            //this.fire('warn', { value: 'Failed to write; no WebNFC support'});
+            //this.toggle();
             return;
           }
 
@@ -237,23 +331,23 @@
             }
           })().then((adapter) => {
             this.adapter = adapter;
-            this.adapter.pushMessage([{ 
-              kind: 'json', 
-              type: 'application/json', 
+            this.adapter.pushMessage([{
+              kind: 'json',
+              type: 'application/json',
               data: JSON.stringify({ name: this.value })
             }], { target: 'tag', timeout: 5 })
             .then(() => {
               this.fire('info', { value: 'Wrote ' + this.value });
-              this.toggle();
+              this.onWriteSucceeded();
             })
             .catch(() => {
               this.fire('warn', { value: 'Failed to write; unknown error' });
-              this.toggle();
+              this.onWriteFailed();
             });
           });
         }
       });
     })();
   </script>
-  
+
 </dom-module>
