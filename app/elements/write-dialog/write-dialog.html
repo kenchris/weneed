@@ -4,16 +4,12 @@
 <link rel="import" href="../../bower_components/paper-dialog-behavior/paper-dialog-behavior.html">
 
 <style>
-  # Needs to be here as it is not created as part of
-  # the element, but by Quagga.
-
-  video.drawingBuffer {
+  .fit-contain {
     position: absolute;
     top: 0;
     right: 0;
     bottom: 0;
     left: 0;
-
     width: 100%    !important;
     height: auto   !important;
   }
@@ -74,7 +70,7 @@
       <section>
         <paper-dialog-scrollable>
           <div id="interactive" class="viewport illustration" style="background: url(/images/write-prepare.png) no-repeat;">
-            <video class="fit"></video>
+            <video class="fit-contain"></video>
           </div>
           <p>
             Write the name of the shopping item to add, or write the UPC/EAN of the item to
@@ -145,39 +141,39 @@
       var dialog = null;
 
       Quagga.onProcessed(function(result) {
-        // TODO: Fix drawing barcode areas.
-        return;
-
         var drawingCtx = Quagga.canvas.ctx.overlay,
             drawingCanvas = Quagga.canvas.dom.overlay;
 
-        if (result) {
-            if (result.boxes) {
-                drawingCtx.clearRect(0, 0, parseInt(drawingCanvas.getAttribute("width")), parseInt(drawingCanvas.getAttribute("height")));
-                result.boxes.filter(function (box) {
-                    return box !== result.box;
-                }).forEach(function (box) {
-                    Quagga.ImageDebug.drawPath(box, {x: 0, y: 1}, drawingCtx, {color: "green", lineWidth: 2});
-                });
-            }
+        if (!result)
+          return;
 
-            if (result.box) {
-                Quagga.ImageDebug.drawPath(result.box, {x: 0, y: 1}, drawingCtx, {color: "#00F", lineWidth: 2});
-            }
+        if (result.boxes) {
+          drawingCtx.clearRect(0, 0, parseInt(drawingCanvas.getAttribute("width")), parseInt(drawingCanvas.getAttribute("height")));
+          result.boxes.filter((box) => box !== result.box).forEach((box) => {
+            Quagga.ImageDebug.drawPath(box, {x: 0, y: 1}, drawingCtx, {color: "green", lineWidth: 2});
+          });
+        }
 
-            if (result.codeResult && result.codeResult.code) {
-                Quagga.ImageDebug.drawPath(result.line, {x: 'x', y: 'y'}, drawingCtx, {color: 'red', lineWidth: 3});
-            }
+        if (result.box) {
+          Quagga.ImageDebug.drawPath(result.box, {x: 0, y: 1}, drawingCtx, {color: "#00F", lineWidth: 2});
+        }
+
+        if (result.codeResult && result.codeResult.code) {
+          Quagga.ImageDebug.drawPath(result.line, {x: 'x', y: 'y'}, drawingCtx, {color: 'red', lineWidth: 3});
         }
       });
 
       Quagga.onDetected(function(result) {
         var code = result.codeResult.code;
+        console.log("Detected " + code);
+
+        let canvas = Quagga.canvas.dom.image;
+        document.querySelector('#interactive').setAttribute('style', `background: url(${canvas.toDataURL()}) no-repeat;`);
+        Quagga.stop();
+
         if (dialog) {
           dialog.lookup(code);
         }
-
-        Quagga.stop();
       });
 
       Polymer({
@@ -268,6 +264,7 @@
                 return;
               }
               Quagga.start();
+              document.querySelector('canvas.drawingBuffer').setAttribute('class', 'drawingBuffer fit-contain');
             });
         },
 
