@@ -20,12 +20,15 @@
           this.randomData = ['Washing powder', 'Dishwasher tabs', 'Toilet paper', 'Milk'];
         },
 
+        ready: function() {
+          this.faking = !navigator.nfc;
+        },
+
         attached: function() {
-          if (!navigator.nfc) {
-            this.faking = true;
+          if (this.faking) {
             return;
           }
-          
+
           (() => {
             if (this.adapter) {
               return Promise.resolve(this.adapter);
