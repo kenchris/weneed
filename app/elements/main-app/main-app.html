@@ -65,6 +65,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     height: 100%;
   }
 
+  paper-fab {
+    color: white;
+    position: absolute;
+    right: 20px;
+    top: 140px;
+  }
+
   paper-material {
     border-radius: 2px;
     height: 100%;
@@ -186,6 +193,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   /* Tablet+ */
   @media (min-width: 601px) {
 
+    paper-fab {
+      top: 164px;
+    }
+
     paper-material {
       width: calc(98% - 46px);
       margin-bottom: 32px;
@@ -240,9 +251,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <paper-icon-button id="paperToggle" icon="menu" paper-drawer-toggle></paper-icon-button>
           <span class="flex"></span>
 
-          <!-- Toolbar icons -->
-          <paper-icon-button icon="search"></paper-icon-button>
-
           <!-- Application name -->
           <div class="middle middle-container center horizontal layout">
             <div class="app-name">
@@ -253,7 +261,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <div class="bottom bottom-container center horizontal layout">
             <div class="bottom-title paper-font-subhead">Tap so you don't forget to buy</div>
           </div>
-          <paper-fab icon="add" style="color: white; position: absolute; right: 20px; top: 140px"
+          <paper-fab icon="add"
             onclick="document.querySelector('#writeguide').toggle()"></paper-fab>
 
         </paper-toolbar>
