@@ -24,6 +24,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   .card-content {
     padding: 0px;
+    margin: 20px;
     position: relative;
   }
 
@@ -183,10 +184,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     vertical-align: 1px;
   }
 
+  #basket {
+    min-width: 160px;
+    min-height: 160px;
+    max-height: 250px;
+  }
+
   /* Breakpoints */
 
   /* Small */
   @media (max-width: 600px) {
+
+    #basket {
+      display: none;
+    }
 
     paper-toolbar.tall .app-name {
       font-size: 36px;
@@ -210,6 +221,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   /* Tablet+ */
   @media (min-width: 601px) {
+    .card-content {
+      margin: 40px;
+    }
 
     paper-fab {
       top: 164px;
@@ -282,17 +296,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <iron-pages class="flex" attr-for-selected="data-route" selected="{{route}}">
             <section data-route="home" class="vertical layout center">
               <paper-card>
-                <div class="card-content horizontal layout">
-                  <iron-image sizing="contain" style="min-width: 160px; min-height: 160px; max-height: 250px;"
-                  preload fade src="{{imageSrc}}"></iron-image>
-                  <div class="flex" style="margin: 40px">
-                    <h4>Overview</h4>
+                <div class="horizontal layout">
+                  <iron-image id="basket" sizing="contain"
+                    preload fade src="{{imageSrc}}"></iron-image>
+                  <div class="card-content flex">
+
+                    <h4 style="margin-top: 0;">Overview</h4>
                     <template is="dom-if" if="{{!shoppingItems.length}}">
                       <div>You have everything you need</div>
                     </template>
                     <template is="dom-if" if="{{shoppingItems.length}}">
                       <div>You have <div class="badge"><span>{{shoppingItems.length}}<span></div> item to buy in your list</div>
                     </template>
+
                   </div>
                 </div>
                 <div class="card-actions horizontal layout end-justified">
@@ -302,7 +318,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               </paper-card>
 
               <paper-card>
-                <div class="card-content" style="margin: 40px">
+                <div class="card-content">
                   <p class="paper-font-body2">Now to get started</p>
                   Create a new tag to put near some of your appliances when they run
                   out of something you often need, and add the product to your
