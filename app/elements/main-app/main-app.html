@@ -15,7 +15,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       width: 100%;
       height: 100%;
     }
-    
+
   paper-dialog {
     @apply(--layout-vertical);
     @apply(--center-justified);
@@ -52,7 +52,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     height: 16px;
     font-weight: 500;
   }
-  
+
   .bottom-title {
     color: var(--light-primary-color);
   }
@@ -74,7 +74,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     margin: 16px auto;
     background: white;
   }
-  
+
   paper-icon-button  {
     color: white;
   }
@@ -135,8 +135,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     -webkit-transform-origin: left center;
     transform-origin: left center;
   }
-  
-    /* Breakpoints */
+
+  iron-pages {
+    padding: 16px;
+  }
+
+  footer {
+    background: #e7e7e7;
+    padding: 22px 42px;
+  }
+
+  footer ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Breakpoints */
 
   /* Small */
   @media (max-width: 600px) {
@@ -181,18 +196,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     #drawer.paper-drawer-panel > [drawer] {
       border-right: 1px solid rgba(0, 0, 0, 0.14);
     }
-
-    iron-pages {
-      padding: 48px 62px;
-    }
-
   }
   </style>
   <template>
     <weneed-nfc id="adapter" faking="{{isFaking}}">
       <item-store id="shop" data="{{shoppingItems}}" image="{{imageSrc}}" on-complete="gotoHome"></item-store>
     </weneed-nfc>
-    <paper-drawer-panel id="paperDrawerPanel">
+    <paper-drawer-panel id="paperDrawerPanel" force-narrow="true">
       <!-- Drawer Scroll Header Panel -->
       <paper-scroll-header-panel drawer fixed>
 
@@ -249,8 +259,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         </paper-toolbar>
 
         <!-- Main Content -->
-        <div class="content">
-          <iron-pages attr-for-selected="data-route" selected="{{route}}">
+        <div class="content fit layout vertical">
+          <iron-pages class="flex" attr-for-selected="data-route" selected="{{route}}">
             <section data-route="home">
               <paper-material elevation="1" class="horizontal layout">
                 <iron-image sizing="contain" style="min-width: 160px; min-height: 160px; max-height: 250px;"
@@ -293,6 +303,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             </section>
 
           </iron-pages>
+
+          <footer>
+			      <div>
+			      <div style="margin-bottom: 16px; color: #2E3AA1; font-weight: bold;">WeNEED!</div>
+				      <ul style="color: #77909D; font-size: 14px; font-weight: 300;">
+				        <li><a href="https://www.outpan.com/">Outpan</a> is licensed under <a href="http://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a></li>
+				      </ul>
+				     </div>
+			    </footer>
         </div>
       </paper-scroll-header-panel>
     </paper-drawer-panel>
@@ -310,7 +329,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       Polymer({
         is: 'main-app',
-        
+
         properties: {
           route: {
             type: String,
@@ -318,7 +337,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             notify: true
           }
         },
- 
+
         _log: function(ev) {
           console.log(ev.detail.value);
           this.$.console.text = ev.detail.value;
@@ -338,26 +357,26 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           page('/', scrollToTop, () => { this.route = 'home'; });
           page('/home', scrollToTop, () => { this.route = 'home'; });
           page('/pending', scrollToTop, () => { this.route = 'pending'; });
-      
+
           // add #! before urls
           page({
             hashbang: true
           });
-          
+
           addEventListener('warn', this._log.bind(this));
           addEventListener('info', this._log.bind(this));
         },
-        
+
         gotoHome: function() {
           this.route = 'home';
           this.onDataRouteClick();
         },
-        
+
         gotoShoppingList: function() {
           this.route = 'pending';
           this.onDataRouteClick();
         },
-        
+
         // Close drawer after menu item is selected if drawerPanel is narrow
         onDataRouteClick: function() {
           var drawerPanel = document.querySelector('#paperDrawerPanel');
@@ -366,7 +385,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           }
           document.location.hash = '#!/' + this.route;
         },
-        
+
         onItemComplete: function(event) {
           var el = document.querySelector('#shop');
           if (el) {

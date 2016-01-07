@@ -41,27 +41,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   <!-- Tile icon for Win8 (144x144) -->
   <meta name="msapplication-TileImage" content="images/touch/ms-touch-icon-144x144-precomposed.png">
-  
+
   <!-- 1. Async HTML Imports do not block rending. Benefit of keeping it declarative
      (instead of dynamically loading it later in JS) is that the parser can go
      to town pre-fetching resources, etc. -->
   <link rel="import" id="bundle" href="/elements/elements.html" async>
-  
+
   <style>
     body {
       background: #fafafa;
       font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-display: fallback;
       color: #333;
       margin: 0;
-    }
-    #skeleton .drawer {
-      position: fixed;
-      top: 0;
-      right: auto;
-      bottom: 0;
-      left: 0;
-      background-color: #ffffff;
-      width: 256px;
     }
     #skeleton .main > .app-header {
       display: block;
@@ -72,7 +64,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       background-color: #FFC107;
       color: #444;
       transform: translate3d(0px, 0px, 0px);
-      left: 256px;
+      left: 0px;
     }
     #skeleton .app-toolbar {
       height: 64px;
@@ -94,6 +86,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       font-size: 20px;
     }
     #skeleton .site-title {
+      font-family: Helvetica, Arial, sans-serif;
+      font-display: fallback;
       font-size: 60px;
       line-height: 1;
       color: #FFF;
@@ -102,12 +96,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       font-weight: 500;
     }
     @media (max-width: 640px) {
-      #skeleton .drawer {
-        display: none;
-      }
-      #skeleton .main > .app-header {
-        left: 0;
-      }
       #skeleton .app-toolbar {
         height: 56px;
       }
@@ -117,10 +105,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <body unresolved class="fullbleed layout vertical">
   <span id="browser-sync-binding"></span>
-  
+
   <div id="skeleton">
-    <!-- drawer panel -->
-    <div class="drawer"></div>
     <!-- main panel -->
     <div class="main">
       <div class="app-header">
@@ -134,15 +120,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       </div>
     </div>
   </div>
-  
+
   <main-app></main-app>
-  
+
   <template is="dom-bind" id="app">
     <paper-toast id="caching-complete"
                 duration="6000"
                 text="Caching complete! This app will work offline.">
     </paper-toast>
-  
+
     <platinum-sw-register auto-register
                           clients-claim
                           skip-waiting
