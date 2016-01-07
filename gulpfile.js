@@ -24,6 +24,7 @@ var historyApiFallback = require('connect-history-api-fallback');
 var packageJson = require('./package.json');
 var crypto = require('crypto');
 var polybuild = require('polybuild');
+var console = require("gulp-util");
 
 $.cache.clear();
 $.cache.clearAll();
@@ -235,7 +236,11 @@ gulp.task('serve', ['styles', 'elements', 'images'], function () {
     // https: true,
     server: {
       baseDir: ['.tmp', 'app'],
-      middleware: [ historyApiFallback() ],
+      middleware: function(req, res, next) {
+        req.url = req.url.replace(".png", "@1.png");
+        //console.log(req.url);
+        return next();
+      },
       routes: {
         '/bower_components': 'bower_components'
       }
@@ -266,7 +271,7 @@ gulp.task('serve:dist', ['default'], function () {
     // Run as an https by uncommenting 'https: true'
     // Note: this uses an unsigned certificate which on first access
     //       will present a certificate warning in the browser.
-    // https: true,
+    https: true,
     server: 'static',
     middleware: [ historyApiFallback() ]
   });
