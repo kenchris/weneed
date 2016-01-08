@@ -95,6 +95,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     background: white;
   }
 
+  #shopping-list-card {
+    min-height: calc(100vh - 352px);
+  }
+
   paper-icon-button  {
     color: white;
   }
@@ -224,6 +228,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   /* Tablet+ */
   @media (min-width: 601px) {
+
     .card-content {
       margin: 40px;
     }
@@ -332,15 +337,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             </section>
 
             <section data-route="pending">
-              <paper-card heading="Shopping list" class="vertical layout" style="min-height: calc(100vh - 352px)">
-                <div class="card-content flex vertical layout" style="margin: 40px">
-                  <iron-list id="tobuy" items="[[shoppingItems]]" as="item" class="flex">
-                    <template>
-                      <div style="padding: 5px;">
-                        <paper-checkbox on-iron-change="onItemComplete">[[item.name]]</paper-checkbox>
-                      </div>
-                    </template>
-                  </iron-list>
+              <paper-card id="shopping-list-card" class="vertical layout">
+                <div class="card-content flex vertical layout">
+                  <h4 style="margin-top: 0;">Shopping list</h4>
+                  <template is="dom-if" if="{{!shoppingItems.length}}">
+                    <div class="flex">Your shopping list is currently empty</div>
+                  </template>
+                  <template is="dom-if" if="{{shoppingItems.length}}">
+                    <iron-list id="tobuy" items="[[shoppingItems]]" as="item" class="flex">
+                      <template>
+                        <div style="padding: 5px;">
+                          <paper-checkbox on-iron-change="onItemComplete">[[item.name]]</paper-checkbox>
+                        </div>
+                      </template>
+                    </iron-list>
+                  </template>
                 </div>
               </paper-card>
             </section>
