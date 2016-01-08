@@ -28,10 +28,15 @@
     }
 
     h2 {
-      font-size: 24px;
-      font-weight: bold;
-      padding-bottom: 16px;
+      @apply(--paper-font-title);
+      font-weight: 300 !important;
+      color: #212121;
       padding: 0px 24px 16px;
+    }
+
+    p {
+      @apply(--paper-font-body1);
+      color: #212121;
     }
 
     iron-pages {

@@ -14,14 +14,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   :host {
     width: 100%;
     height: 100%;
+    color: #212121;
+    @apply(--paper-font-body1);
   }
 
   h4 {
     @apply(--paper-font-title);
-  }
-
-  p {
-    @apply(--paper-font-body2);
+    color: #616161;
   }
 
   write-dialog {
@@ -42,7 +41,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   }
 
   #drawerToolbar {
-    color: var(white);
+    color: white;
     background: url(../images/menubg.png);
     background-color: var(--default-primary-color);
 
@@ -53,7 +52,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   #drawerToolbar .title {
     font-size: 16px;
     line-height: 1;
-    color: #FFF;
+    color: white;
     position: absolute;
     bottom: 8px;
     left: 16px;
@@ -197,6 +196,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     max-height: 250px;
   }
 
+  .card-title-box {
+    @apply(--layout-vertical);
+    @apply(--layout-end-justified);
+    height: 150px;
+    background: #77909D;
+    color: white;
+    padding: 0px 20px 10px;
+  }
+
   /* Breakpoints */
 
   /* Small */
@@ -231,6 +239,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     .card-content {
       margin: 40px;
+    }
+
+    .card-title-box {
+      padding: 0px 40px 10px;
     }
 
     paper-fab {
@@ -326,12 +338,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               </paper-card>
 
               <paper-card>
-                <div class="card-content">
-                  <p class="paper-font-body2">Now to get started</p>
-                  Create a new tag to put near some of your appliances when they run
-                  out of something you often need, and add the product to your
-                  shopping list by a single tap! Press the action button to get
-                  started.
+                <div class="vertical layout">
+                  <div class="card-title-box">
+                    <div class="paper-font-title">Now to get started</div>
+                  </div>
+                  <div class="card-content">
+                    <div>
+                      Create a new tag to put near some of your appliances when they run
+                    out of something you often need, and add the product to your
+                    shopping list by a single tap! Press the action button to get
+                    started.
+                    </div>
+                    <br><br>
+                    <a style="font-size: 12px;" href="#">More info</a>
                 </div>
               </paper-card>
             </section>
