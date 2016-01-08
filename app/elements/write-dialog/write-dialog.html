@@ -21,8 +21,6 @@
     <style>
     :host {
       --paper-dialog-background-color: white;
-      width: 90%;
-      max-width: 480px;
     }
 
     :host > * {
@@ -206,17 +204,30 @@
         },
 
         listeners: {
-          'iron-overlay-closed': 'reset'
+          'iron-overlay-closed': 'reset',
+          'iron-overlay-opened': 'checkForFeatureAndPermission'
         },
 
         ready: function() {
-          dialog = this;
+          window.addEventListener('resize', this.windowChange.bind(this));
           this.$.input.addEventListener('input', this.inputChange.bind(this));
 
+          // For Quagga.
+          dialog = this;
+        },
+
+        checkForFeatureAndPermission: function() {
           navigator.webkitGetUserMedia({ video: true },
             () => { this.supportsBarcodeScanner = true },
             () => { this.supportsBarcodeScanner = false }
           );
+        },
+
+        windowChange: function() {
+          this.resetFit();
+          if (this.opened) {
+            this.refit();
+          }
         },
 
         inputChange: function(ev) {
