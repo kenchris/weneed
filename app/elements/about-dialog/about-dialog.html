@@ -49,10 +49,11 @@
     
     @media (min-width: 601px) {
       :host {
+        position: relative;
         width: 90%;
+        max-width: 480px;
         height: auto;
         max-height: 90%;
-        max-width: 480px;
       }
       .fullscreen-only {
         display: none;
@@ -65,9 +66,10 @@
     @media (max-width: 600px) {
       :host {
         position: absolute;
-        width: 100vw;
-        height: 100vh;
-        max-height: 100vh;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
       }
       
       .dialog-only {
@@ -142,10 +144,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         behaviors: [
           Polymer.PaperDialogBehavior
         ],
-
-        listeners: {
-          'iron-overlay-closed': 'reset'
-        },
 
         ready: function() {
           window.addEventListener('resize', this.windowChange.bind(this));
