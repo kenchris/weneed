@@ -8,9 +8,9 @@
     "platinum-elements": "PolymerElements/platinum-elements#^1.2.0",
     "neon-elements": "PolymerElements/neon-elements#^1.0.0",
     "page": "visionmedia/page.js#~1.6.3",
-    "iron-list": "PolymerElements/iron-list#^1.1.2",
+    "iron-list": "PolymerElements/iron-list#^1.1.7",
     "webcomponentsjs": "WebComponents/webcomponentsjs#~0.7.18",
-    "paper-dialog-scrollable": "PolymerElements/paper-dialog-scrollable#~1.0.1",
+    "paper-dialog-scrollable": "PolymerElements/paper-dialog-scrollable#~1.1.0",
     "quagga": "~0.8.2",
     "paper-card": "Polymer/paper-card"
   },
