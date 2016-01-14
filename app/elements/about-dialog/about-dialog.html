@@ -26,7 +26,7 @@
 
       background: var(--paper-dialog-background-color, --primary-background-color);
       color: var(--paper-dialog-color, --primary-text-color);
- 
+
       @apply(--paper-font-body1);
       @apply(--shadow-elevation-16dp);
       @apply(--layout-vertical);
@@ -42,18 +42,18 @@
       margin: 0;
       border-top: 1px solid rgba(0, 0, 0, 0.12);
       color: var(--paper-dialog-button-color, --default-primary-color);
-    
+
       @apply(--layout-horizontal);
       @apply(--layout-end-justified);
     }
-    
+
     @media (min-width: 601px) {
       :host {
         position: relative;
         width: 90%;
         max-width: 480px;
-        height: auto;
-        max-height: 90%;
+        height: 90%;
+        max-height: 600px;
       }
       .fullscreen-only {
         display: none;
@@ -71,11 +71,25 @@
         bottom: 0;
         left: 0;
       }
-      
+
       .dialog-only {
         display: none;
       }
-    } 
+    }
+
+    #dropShadow {
+      position: absolute;
+      z-index: 1;
+      top: 56px;
+
+      left: 0;
+      right: 0;
+      pointer-events: none;
+
+      height: 6px;
+      bottom: -6px;
+      box-shadow: inset 0px 5px 6px -3px rgba(0, 0, 0, 0.4);
+    }
 
     paper-button {
       color: var(--paper-indigo-500);
@@ -87,7 +101,7 @@
       padding: 10px;
       margin-bottom: 30px;
     }
-    
+
     paper-dialog-scrollable {
       overflow-y: scroll;
     }
@@ -98,6 +112,7 @@
       <paper-icon-button class="fullscreen-only" icon="arrow-back" on-tap="close"></paper-icon-button>
       <div class="title">Open source licenses</div>
     </paper-toolbar>
+    <div id="dropShadow" class="fullscreen-only"></div>
 
       <paper-dialog-scrollable>
         <h3>Notice for Polymer</h3>
@@ -123,7 +138,7 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-        </pre>  
+        </pre>
         <h3>Notice for Outpan</h3>
         <p>Click <a href="https://www.outpan.com/terms.php" target="_blank">here</a> for the terms of service.</p>
       </paper-dialog-scrollable>
