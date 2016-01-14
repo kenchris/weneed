@@ -103,7 +103,7 @@
     }
 
     paper-dialog-scrollable {
-      overflow-y: scroll;
+      @apply(--layout-flex);
     }
 
     </style>
@@ -159,6 +159,13 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         behaviors: [
           Polymer.PaperDialogBehavior
         ],
+
+        attached: function() {
+          Polymer.dom(this.root).querySelectorAll('paper-dialog-scrollable').forEach((node) => {
+            node.dialogElement = this;
+            node.scrollTarget.classList.add('fit');
+          });
+        },
 
         ready: function() {
           window.addEventListener('resize', this.windowChange.bind(this));
