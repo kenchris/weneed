@@ -194,12 +194,15 @@ gulp.task('cache-config', function (callback) {
     disabled: false
   };
 
-  glob('{elements,scripts,styles}/**/*.*', {cwd: dir}, function(error, files) {
+  glob('{{elements,scripts,styles}/**,images}/*.*', {cwd: dir}, function(error, files) {
     if (error) {
       callback(error);
     } else {
       files.push('./', 'bower_components/webcomponentsjs/webcomponents-lite.min.js');
-      config.precache = files;
+      files.forEach(function(file, i, files) {
+        files[i] = file.replace(/@.\./, ".");
+      });
+      config.precache = [ ...new Set(files) ];
 
       var md5 = crypto.createHash('md5');
       md5.update(JSON.stringify(config.precache));
