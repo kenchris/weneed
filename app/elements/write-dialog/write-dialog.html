@@ -136,7 +136,8 @@
 
       <section>
         <paper-dialog-scrollable>
-          <div class="illustration" style="background: url(/images/write-failure.png) no-repeat;">
+          <div class="illustration" style="background: url(/images/write-failure.png) no-repeat;"
+            onclick="document.querySelector('write-dialog').onWriteSucceeded();">
           </div>
           <p>
             Error writing content, please try again.
@@ -147,6 +148,13 @@
           <paper-button on-tap="write">TRY AGAIN</paper-button>
         </div>
       </section>
+
+      <section>
+        <paper-dialog-scrollable>
+        Dummy element workaround!
+        </paper-dialog-scrollable>
+      </section>
+
     </iron-pages>
   </template>
 
