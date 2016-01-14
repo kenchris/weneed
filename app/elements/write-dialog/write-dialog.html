@@ -21,10 +21,22 @@
     <style>
     :host {
       --paper-dialog-background-color: white;
+      @apply(--layout-vertical);
     }
 
     :host > * {
       padding: 0;
+    }
+
+    iron-pages {
+      @apply(--layout-flex);
+      @apply(--layout-vertical);
+      margin: 0px;
+    }
+
+    section {
+      @apply(--layout-flex);
+      @apply(--layout-vertical);
     }
 
     h2 {
@@ -39,12 +51,12 @@
       color: #212121;
     }
 
-    iron-pages {
-      display: inline;
-    }
-
     paper-button {
       color: var(--paper-indigo-500);
+    }
+
+    paper-dialog-scrollable {
+      @apply(--layout-flex);
     }
 
     .buttons {
@@ -63,13 +75,14 @@
     .illustration {
       background-size: cover !important;
       height: 0px;
-      padding-top: 75%;
+      padding-top: 65%;
       position: relative;
     }
     </style>
 
     <h2>Add a new item for the shopping list</h2>
-    <iron-pages selected="{{state}}">
+
+    <iron-pages selected="{{state}}" class="vertical layout">
       <section>
         <paper-dialog-scrollable>
           <div id="interactive" class="viewport illustration" style="background: url(/images/write-prepare.png) no-repeat;">
@@ -134,6 +147,7 @@
           <paper-button on-tap="write">TRY AGAIN</paper-button>
         </div>
       </section>
+    </iron-pages>
   </template>
 
   <script src="../../bower_components/quagga/dist/quagga.min.js" type="text/javascript"></script>
@@ -219,6 +233,7 @@
 
           Polymer.dom(this.root).querySelectorAll('paper-dialog-scrollable').forEach((node) => {
             node.dialogElement = this;
+            node.scrollTarget.classList.add('fit');
           });
 
           // For Quagga.
