@@ -151,7 +151,7 @@ gulp.task('copy', function() {
     'app/*',
     '!app/test',
     '!app/elements',
-    '!app/bower_components',
+    '!bower_components',
     '!app/cache-config.json',
     '!**/.DS_Store'
   ], {
@@ -161,10 +161,13 @@ gulp.task('copy', function() {
   // Copy over only the bower_components we need
   // These are things which cannot be vulcanized
   var bower = gulp.src([
-    'app/bower_components/{webcomponentsjs,platinum-sw,sw-toolbox,promise-polyfill}/**/*'
-  ]).pipe(gulp.dest(dist('bower_components')));
+    'bower_components/**/*'
+    ]).pipe(gulp.dest(dist('bower_components')));
 
-  return merge(app, bower)
+  var elements = gulp.src(['app/elements/**/*.html'])
+    .pipe(gulp.dest(dist('elements')));
+
+  return merge(app, bower, elements)
     .pipe($.size({
       title: 'copy'
     }));
