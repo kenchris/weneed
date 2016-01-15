@@ -55,10 +55,6 @@
     "weight": 1,
     "type": "document"
   },
-  "/styles/shared-styles.html": {
-    "weight": 1,
-    "type": "document"
-  },
   "/styles/app-theme.html": {
     "weight": 1,
     "type": "document"
