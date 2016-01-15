@@ -2,8 +2,7 @@
 
 Everything in this repo is BSD style license unless otherwise specified.
 
-Copyright (c) 2015 The WeNEED! Authors. All rights reserved.
-Copyright (c) 2015 The Polymer Authors. All rights reserved.
+Copyright (c) 2015, 2016 Intel Corporation. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
 
@@ -13,7 +12,7 @@ notice, this list of conditions and the following disclaimer.
 copyright notice, this list of conditions and the following disclaimer
 in the documentation and/or other materials provided with the
 distribution.
-* Neither the name of Google Inc. nor the names of its
+* Neither the name of Intel Corporation nor the names of its
 contributors may be used to endorse or promote products derived from
 this software without specific prior written permission.
 
