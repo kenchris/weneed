@@ -1,22 +1,47 @@
 {
-  "name": "WeNEED!",
-  "short_name": "WeNEED!",
-  "icons": [{
-        "src": "images/touch/icon-128x128.png",
+  "name": "WebNFC Shopping Cart Demo",
+  "short_name": "Shopping Cart",
+  "icons": [
+      {
+        "src": "images/touch/drawable-mdpi#icon.png",
+        "sizes": "48x48",
+        "type": "image/png"
+      }, {
+        "src": "images/touch/drawable-hdpi#icon.png",
+        "sizes": "72x72",
+        "type": "image/png"
+      }, {
+        "src": "images/touch/drawable-xhdpi#icon.png",
+        "sizes": "96x96",
+        "type": "image/png"
+      }, {
+        "src": "images/touch/icon-128.png",
         "sizes": "128x128",
         "type": "image/png"
       }, {
-        "src": "images/touch/apple-touch-icon.png",
-        "sizes": "152x152",
-        "type": "image/png"
-      }, {
-        "src": "images/touch/ms-touch-icon-144x144-precomposed.png",
+        "src": "images/touch/drawable-xxhdpi#icon.png",
         "sizes": "144x144",
         "type": "image/png"
       }, {
-        "src": "images/touch/chrome-touch-icon-192x192.png",
+        "src": "images/touch/icon-152.png",
+        "sizes": "152x152",
+        "type": "image/png"
+      }, {
+        "src": "images/touch/drawable-xxxhdpi#icon.png",
         "sizes": "192x192",
         "type": "image/png"
+      },{
+        "src": "images/touch/splashscreen-icon-384.png",
+        "sizes": "384x384",
+        "type": "image/png"
+      }, {
+        "src": "images/touch/icon-512.png",
+        "sizes": "512x512",
+        "type": "image/png"
+      }, {
+        "src": "images/touch/drawable-xxxhdpi#icon.png",
+        "sizes": "any",
+        "type": "image/svg+xml"
       }],
   "start_url": "/",
   "background_color": "#FFC107",
