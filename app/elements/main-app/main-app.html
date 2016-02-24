@@ -23,7 +23,7 @@ Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
     width: 480px;
     height: 600px;
   }
-  
+
   :root {
     --layout-vertical: {
       @apply(--layout);
@@ -68,6 +68,9 @@ Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
   }
 
   .bottom-title {
+    font-size: 16px;
+    margin: 10px 0 0 0;
+    white-space: nowrap;
     color: var(--light-primary-color);
   }
 
@@ -141,29 +144,21 @@ Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
   }
 
   paper-toolbar.tall .app-name {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
     font-size: 40px;
     font-weight: 300;
-    /* Required for main area's paper-scroll-header-panel custom condensing transformation */
-    -webkit-transform-origin: left center;
-    transform-origin: left center;
     color: white;
+  }
+
+  paper-toolbar.tall .logo {
+      width: 96px;
   }
 
   #mainToolbar .middle-container  {
     height: 100%;
-    margin-left: 48px;
-  }
-
-  #mainToolbar:not(.tall) .middle {
-    font-size: 18px;
-    padding-bottom: 0;
-  }
-
-  #mainToolbar .bottom {
-    margin-left: 48px;
-    /* Required for main area's paper-scroll-header-panel custom condensing transformation */
-    -webkit-transform-origin: left center;
-    transform-origin: left center;
+    margin-left: 36px;
   }
 
   iron-pages {
@@ -216,6 +211,14 @@ Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
     overflow: hidden;
   }
 
+  @media (max-width: 400px) {
+    paper-toolbar.tall .app-name {
+      font-size: 32px;
+      font-weight: 300;
+      color: white;
+    }
+  }
+
   /* Breakpoints */
   /* Small */
   @media (max-width: 600px) {
@@ -224,10 +227,8 @@ Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
       display: none;
     }
 
-    paper-toolbar.tall .app-name {
-      font-size: 36px;
-      font-weight: 400;
-      color: white;
+    paper-toolbar.tall .logo {
+      width: 72px;
     }
 
     #drawer .paper-toolbar {
@@ -274,7 +275,7 @@ Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
 
         <!-- Drawer Toolbar -->
         <div id="drawerToolbar" style="background: url(../../images/menubg.png)">
-          <div class="title">WeNeed!</div>
+          <div class="title">Web NFC Shopping Cart</div>
         </div>
 
         <!-- Drawer Content -->
@@ -306,15 +307,13 @@ Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
           <paper-icon-button id="paperToggle" icon="menu" paper-drawer-toggle></paper-icon-button>
           <span class="flex"></span>
 
-          <!-- Application name -->
           <div class="middle middle-container center horizontal layout">
-            <div class="app-name">
-              <img src="/images/weneed.png" on-click="gotoHome"></img>
+            <img class="logo" src="/images/touch/icon_512.svg" style="margin: 0 0 10px 0;" on-click="gotoHome"></img>
+            <div class="center-justified vertical layout flex">
+            <!-- Application name -->
+              <div class="app-name">Shopping Cart</div>
+              <div class="bottom-title paper-font-subhead">Tap so you don't forget to buy</div>
             </div>
-          </div>
-          <!-- Application sub title -->
-          <div class="bottom bottom-container center horizontal layout">
-            <div class="bottom-title paper-font-subhead">Tap so you don't forget to buy</div>
           </div>
           <paper-fab icon="add"
             onclick="document.querySelector('#writeguide').toggle()"></paper-fab>
@@ -389,7 +388,7 @@ Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
 
           <footer>
 			      <div>
-			      <div style="margin-bottom: 16px; color: #2E3AA1; font-weight: bold;">WeNEED!</div>
+			      <div style="margin-bottom: 16px; color: #2E3AA1; font-weight: bold;">Web NFC Shopping Cart</div>
 				      <ul style="color: #77909D; font-size: 14px; font-weight: 300;">
 				        <li><a href="https://www.outpan.com/">Outpan</a> is licensed under <a href="http://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a></li>
 				      </ul>

@@ -44,7 +44,11 @@ class ImageHandler(webapp2.RequestHandler):
     if (self.request.headers.get('DPR', 1) > 1):
       device_pixel_ratio = "2"
 
-    self.response.headers['Content-Type'] = 'image/png'
+    if ext == "png":
+      self.response.headers['Content-Type'] = 'image/png'
+    elif ext == "svg":
+      self.response.headers['Content-Type'] = 'image/svg+xml'
+
     self.response.headers.add_header('Content-DPR', device_pixel_ratio);
     if ext == "png" and not "touch/" in name:
       path = os.path.join(os.path.dirname(__file__), 'static/' + name + '@' + device_pixel_ratio + '.' + ext)
